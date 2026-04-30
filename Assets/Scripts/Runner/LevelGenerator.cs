@@ -9,18 +9,23 @@ public class LevelGenerator : MonoBehaviour
     public LevelChunk startChunk;
 
     [Header("Configurações")]
-    public float spawnDistanceAhead = 20f;
-    public float despawnDistanceBehind = 15f;
+    public float spawnDistanceAhead = 30f;
+    public float despawnDistanceBehind = 20f;
+    public int initialPoolSizePerPrefab = 3;
 
     private Vector3 _nextSpawnPosition;
     private Queue<LevelChunk> _activeChunks = new Queue<LevelChunk>();
 
+    private Dictionary<int, List<LevelChunk>> _chunkPools = new Dictionary<int, List<LevelChunk>>();
+
     private void Start()
     {
+        InitializePool();
+
         _nextSpawnPosition = startChunk.endPoint.position;
         _activeChunks.Enqueue(startChunk);
 
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 5; i++)
         {
             SpawnChunk();
         }
@@ -28,34 +33,72 @@ public class LevelGenerator : MonoBehaviour
 
     private void Update()
     {
-
         if (player.position.x + spawnDistanceAhead > _nextSpawnPosition.x)
         {
             SpawnChunk();
         }
 
-        LevelChunk oldestChunk = _activeChunks.Peek();
-        if (oldestChunk.endPoint.position.x < player.position.x - despawnDistanceBehind)
+        if (_activeChunks.Count > 0)
         {
-            RecycleChunk();
+            LevelChunk oldestChunk = _activeChunks.Peek();
+            if (oldestChunk.endPoint.position.x < player.position.x - despawnDistanceBehind)
+            {
+                RecycleChunk();
+            }
+        }
+    }
+
+    private void InitializePool()
+    {
+        for (int i = 0; i < chunkPrefabs.Length; i++)
+        {
+            _chunkPools[i] = new List<LevelChunk>();
+
+            for (int j = 0; j < initialPoolSizePerPrefab; j++)
+            {
+                LevelChunk newChunk = Instantiate(chunkPrefabs[i]);
+                newChunk.gameObject.SetActive(false);
+                _chunkPools[i].Add(newChunk);
+            }
         }
     }
 
     private void SpawnChunk()
     {
         int randomIndex = Random.Range(0, chunkPrefabs.Length);
+        LevelChunk chunk = GetChunkFromPool(randomIndex);
 
-        LevelChunk newChunk = Instantiate(chunkPrefabs[randomIndex], _nextSpawnPosition, Quaternion.identity);
+        chunk.transform.position = _nextSpawnPosition;
+        chunk.gameObject.SetActive(true);
 
-        _nextSpawnPosition = newChunk.endPoint.position;
+        _nextSpawnPosition = chunk.endPoint.position;
+        _activeChunks.Enqueue(chunk);
+    }
 
-        // Adiciona à fila de chunks ativos
-        _activeChunks.Enqueue(newChunk);
+    private LevelChunk GetChunkFromPool(int index)
+    {
+        List<LevelChunk> pool = _chunkPools[index];
+
+        for (int i = 0; i < pool.Count; i++)
+        {
+            if (!pool[i].gameObject.activeInHierarchy)
+            {
+                return pool[i];
+            }
+        }
+
+        LevelChunk newChunk = Instantiate(chunkPrefabs[index]);
+        pool.Add(newChunk);
+        return newChunk;
     }
 
     private void RecycleChunk()
     {
         LevelChunk chunkToRemove = _activeChunks.Dequeue();
-        Destroy(chunkToRemove.gameObject);
+
+        if (chunkToRemove != startChunk)
+        {
+            chunkToRemove.gameObject.SetActive(false);
+        }
     }
 }
