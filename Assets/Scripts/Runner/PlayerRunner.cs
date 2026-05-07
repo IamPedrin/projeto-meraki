@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -12,6 +13,13 @@ public class PlayerRunner : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private Transform groundCheck;
     [SerializeField] private float groundCheckRadius = 0.1f;
+
+    [Header("Sistema de Seguidores")]
+    public float distanciaEntreSeguidores = 1.2f;
+    public List<TipoAlimento> alimentosColetados = new List<TipoAlimento>();
+    public List<float> jumpPointsX = new List<float>();
+    private int _quantidadeSeguidores = 0;
+
 
     private Rigidbody2D _rb;
     private GameInput _input;
@@ -47,7 +55,23 @@ public class PlayerRunner : MonoBehaviour
         {
             _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, 0f);
             _rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            jumpPointsX.Add(transform.position.x);
         }
+    }
+
+    public void AdicionarSeguidor(Follower prefabFollower, TipoAlimento tipo)
+    {
+        _quantidadeSeguidores++;
+        alimentosColetados.Add(tipo);
+
+        float posicaoX = transform.position.x - (_quantidadeSeguidores * distanciaEntreSeguidores);
+        Vector3 posicaoSpawn = new Vector3(posicaoX, transform.position.y, transform.position.z);
+
+        Follower novoSeguidor = Instantiate(prefabFollower, posicaoSpawn, Quaternion.identity);
+
+        novoSeguidor.player = this;
+        novoSeguidor.tipo = tipo;
+        novoSeguidor.SincronicazarPlayer();
     }
 
 

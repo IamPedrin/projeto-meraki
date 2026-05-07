@@ -154,6 +154,7 @@ MonoBehaviour:
   startChunk: {fileID: 946415816}
   spawnDistanceAhead: 20
   despawnDistanceBehind: 15
+  initialPoolSizePerPrefab: 3
 --- !u!4 &393919383
 Transform:
   m_ObjectHideFlags: 0
@@ -301,7 +302,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.997713, y: -2.2811408, z: -20}
+  m_LocalPosition: {x: 2.997713, y: -6.012, z: -20}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -456,7 +457,7 @@ MonoBehaviour:
   CameraDistance: 10
   DeadZoneDepth: 0
   Composition:
-    ScreenPosition: {x: -0.20578772, y: -0.017142743}
+    ScreenPosition: {x: -0.20578772, y: 0.22}
     DeadZone:
       Enabled: 1
       Size: {x: 0.33054674, y: 0.84}
@@ -524,7 +525,7 @@ Transform:
   m_GameObject: {fileID: 780466324}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.997713, y: -2.2811408, z: -20}
+  m_LocalPosition: {x: 2.997713, y: -6.012, z: -20}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -617,7 +618,7 @@ Transform:
   m_GameObject: {fileID: 946415813}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.2124, y: -4, z: 0}
+  m_LocalPosition: {x: 0.2124, y: -11.97, z: 0}
   m_LocalScale: {x: 21, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -696,9 +697,9 @@ GameObject:
   - component: {fileID: 1329926865}
   - component: {fileID: 1329926864}
   - component: {fileID: 1329926863}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -795,6 +796,9 @@ MonoBehaviour:
     m_Bits: 128
   groundCheck: {fileID: 1726439147}
   groundCheckRadius: 0.1
+  distanciaEntreSeguidores: 1.2
+  alimentosColetados: 
+  jumpPointsX: []
 --- !u!212 &1329926866
 SpriteRenderer:
   serializedVersion: 2
@@ -863,7 +867,7 @@ Transform:
   m_GameObject: {fileID: 1329926862}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7, y: -3, z: 0}
+  m_LocalPosition: {x: -7, y: -10.62, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -910,7 +914,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1726439147}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: GroundCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
