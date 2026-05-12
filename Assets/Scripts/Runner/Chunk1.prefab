@@ -10,9 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7735079970780018429}
   - component: {fileID: 2686138070210979894}
-  - component: {fileID: 1713740964262353097}
   - component: {fileID: 503947640941560185}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Square (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 2497529711756083923}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 29, y: -4, z: 0}
+  m_LocalPosition: {x: 16, y: 0, z: 0}
   m_LocalScale: {x: 7, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -93,19 +92,6 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!114 &1713740964262353097
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2497529711756083923}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9742b0eb8fdb7bd42aac1ac79f4c6f97, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LevelChunk
-  endPoint: {fileID: 0}
 --- !u!61 &503947640941560185
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -163,7 +149,7 @@ GameObject:
   - component: {fileID: 7808072808115568354}
   - component: {fileID: 1330132995830881747}
   - component: {fileID: 2493662076639138433}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -179,7 +165,7 @@ Transform:
   m_GameObject: {fileID: 6618786871673686542}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 17.5, y: -4, z: 0}
+  m_LocalPosition: {x: 3.5, y: 0, z: 0}
   m_LocalScale: {x: 7, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -315,7 +301,7 @@ Transform:
   m_GameObject: {fileID: 6756558988943915985}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 32.5, y: -4, z: 0}
+  m_LocalPosition: {x: 19.5, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -331,7 +317,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8602508384360166829}
   - component: {fileID: 573352074294018594}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Chunk1
   m_TagString: Untagged
   m_Icon: {fileID: 0}

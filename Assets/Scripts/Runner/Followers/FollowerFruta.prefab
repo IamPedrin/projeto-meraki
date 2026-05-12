@@ -42,9 +42,9 @@ GameObject:
   - component: {fileID: 4905986357776934338}
   - component: {fileID: 6930288588396292389}
   - component: {fileID: 6247679249507533516}
-  - component: {fileID: 826442930082138620}
   - component: {fileID: 3303268125771257871}
-  m_Layer: 0
+  - component: {fileID: 6804249610606350960}
+  m_Layer: 8
   m_Name: FollowerFruta
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -150,11 +150,27 @@ Rigidbody2D:
     serializedVersion: 2
     m_Bits: 0
   m_Interpolate: 0
-  m_SleepingMode: 1
+  m_SleepingMode: 0
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!61 &826442930082138620
-BoxCollider2D:
+--- !u!114 &3303268125771257871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6176869624580499327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80ed9149412452c4da8cf8c0b2954525, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Follower
+  tipo: 1
+  player: {fileID: 0}
+  forwardSpeed: 5
+  jumpForce: 10
+--- !u!70 &6804249610606350960
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -163,7 +179,7 @@ BoxCollider2D:
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 8fa48c67e9f04cf41b7873ff0a2edeb5, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -187,31 +203,6 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
---- !u!114 &3303268125771257871
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6176869624580499327}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80ed9149412452c4da8cf8c0b2954525, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Follower
-  tipo: 1
-  player: {fileID: 0}
-  forwardSpeed: 5
-  jumpForce: 10
+  m_Offset: {x: -0.0060014725, y: 0.10652137}
+  m_Size: {x: 0.8259659, y: 1.2130427}
+  m_Direction: 0

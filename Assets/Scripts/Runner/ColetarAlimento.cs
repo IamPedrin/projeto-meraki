@@ -10,9 +10,11 @@ public class ColetarAlimento : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             PlayerRunner player = collision.GetComponent<PlayerRunner>();
-            if(player != null)
+            if (player != null)
             {
+                AudioManager.Instance.PlaySFX("coletar");
                 player.AdicionarSeguidor(prefabFollower, tipoItem);
+
                 gameObject.SetActive(false);
             }
         }
