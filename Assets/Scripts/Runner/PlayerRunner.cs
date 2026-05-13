@@ -5,11 +5,9 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class PlayerRunner : MonoBehaviour
+public class PlayerRunner : EntidadeRunner
 {
-    [Header("Movimento")]
-    [SerializeField] private float jumpForce = 10f;
-    [SerializeField] private float forwardSpeed = 5f;
+    [Header("GroundCheck")]
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private Transform groundCheck;
     [SerializeField] private float groundCheckRadius = 0.1f;
@@ -20,21 +18,20 @@ public class PlayerRunner : MonoBehaviour
     public List<float> jumpPointsX = new List<float>();
     private int _quantidadeSeguidores = 0;
 
-
-    private Rigidbody2D _rb;
     private GameInput _input;
     private bool _isGrounded;
 
-    private void Awake()
+    protected override void Awake()
     {
-        _rb = GetComponent<Rigidbody2D>();
+        base.Awake();
         _input = new GameInput();
     }
 
     private void Update()
     {
-        _rb.linearVelocity = new Vector2(forwardSpeed, _rb.linearVelocity.y);
+        rb.linearVelocity = new Vector2(stats.forwardSpeed, rb.linearVelocity.y);
         _isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+        Gravity();
     }
 
     private void OnEnable()
@@ -53,8 +50,8 @@ public class PlayerRunner : MonoBehaviour
     {
         if (_isGrounded)
         {
-            _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, 0f);
-            _rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0f);
+            rb.AddForce(Vector2.up * stats.jumpForce, ForceMode2D.Impulse);
             jumpPointsX.Add(transform.position.x);
         }
     }
@@ -73,7 +70,6 @@ public class PlayerRunner : MonoBehaviour
         novoSeguidor.tipo = tipo;
         novoSeguidor.SincronicazarPlayer();
     }
-
 
     private void OnDrawGizmosSelected()
     {

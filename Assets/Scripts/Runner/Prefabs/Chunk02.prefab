@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4572555684146939771}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: EndPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -179,7 +179,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5611160842492936653}
   - component: {fileID: 7890938607100772127}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Chunk02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -228,6 +228,10 @@ PrefabInstance:
     - target: {fileID: 798812574802300494, guid: acf110c8bc44aec4aa87c92f161b5ffc, type: 3}
       propertyPath: m_Name
       value: FrutaAleatoria
+      objectReference: {fileID: 0}
+    - target: {fileID: 798812574802300494, guid: acf110c8bc44aec4aa87c92f161b5ffc, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 1780887443329458349, guid: acf110c8bc44aec4aa87c92f161b5ffc, type: 3}
       propertyPath: m_LocalPosition.x

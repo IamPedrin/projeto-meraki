@@ -35,4 +35,8 @@ public class PauseMenu : MonoBehaviour
         Debug.Log("Saindo...");
         Application.Quit();
     }
+    public void ReiniciarJogo()
+    {
+        SceneManager.LoadScene("Runner");
+    }
 }

@@ -1,24 +1,21 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class Follower : MonoBehaviour
+public class Follower : EntidadeRunner
 {
     [Header("Configurações")]
     public TipoAlimento tipo;
     public PlayerRunner player;
-    public float forwardSpeed = 5f;
-    public float jumpForce = 10f;
-    private Rigidbody2D _rb;
     private int _currentJumpIndex = 0;
 
-    private void Awake()
+    protected override void Awake()
     {
-        _rb = GetComponent<Rigidbody2D>();
+        base.Awake();
     }
 
     private void FixedUpdate()
     {
-        _rb.linearVelocity = new Vector2(forwardSpeed, _rb.linearVelocity.y);
+        rb.linearVelocity = new Vector2(stats.forwardSpeed, rb.linearVelocity.y);
     }
 
     private void Update()
@@ -35,19 +32,21 @@ public class Follower : MonoBehaviour
                 _currentJumpIndex++;
             }
         }
+
+        Gravity();
     }
 
     private void Jump()
     {
-        _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, 0f);
-        _rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+        rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0f);
+        rb.AddForce(Vector2.up * stats.jumpForce, ForceMode2D.Impulse);
     }
 
     public void SincronicazarPlayer()
     {
-        if(player == null) return;
+        if (player == null) return;
 
-        while(_currentJumpIndex < player.jumpPointsX.Count && player.jumpPointsX[_currentJumpIndex] <= transform.position.x)
+        while (_currentJumpIndex < player.jumpPointsX.Count && player.jumpPointsX[_currentJumpIndex] <= transform.position.x)
         {
             _currentJumpIndex++;
         }

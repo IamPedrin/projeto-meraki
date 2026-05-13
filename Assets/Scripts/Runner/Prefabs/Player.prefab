@@ -107,8 +107,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06f98803c805cb040b507036b954f5d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerRunner
-  jumpForce: 10
-  forwardSpeed: 5
+  stats: {fileID: 11400000, guid: d5c486b2f65a606439713a4d5c96b296, type: 2}
   groundLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -133,7 +132,7 @@ Rigidbody2D:
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 6200000, guid: 8fa48c67e9f04cf41b7873ff0a2edeb5, type: 2}
+  m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0

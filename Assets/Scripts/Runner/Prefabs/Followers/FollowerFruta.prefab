@@ -165,10 +165,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80ed9149412452c4da8cf8c0b2954525, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Follower
+  stats: {fileID: 11400000, guid: d5c486b2f65a606439713a4d5c96b296, type: 2}
   tipo: 1
   player: {fileID: 0}
-  forwardSpeed: 5
-  jumpForce: 10
 --- !u!70 &6804249610606350960
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
