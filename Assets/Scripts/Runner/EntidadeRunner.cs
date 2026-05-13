@@ -12,8 +12,9 @@ public class EntidadeRunner : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
-    protected void Gravity()
+    protected void GravityAndPhysics()
     {
+        rb.linearVelocity = new Vector2(stats.forwardSpeed, rb.linearVelocity.y);
         if (rb.linearVelocity.y < 0)
         {
             rb.gravityScale = stats.baseGravity * stats.fallGravityMultiplier;
@@ -23,6 +24,13 @@ public class EntidadeRunner : MonoBehaviour
         {
             rb.gravityScale = stats.baseGravity;
         }
+    }
+
+    protected virtual void IniciarPulo()
+    {
+
+        rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0f);
+        rb.AddForce(Vector2.up * stats.jumpForce, ForceMode2D.Impulse);
     }
 
 }

@@ -14,9 +14,9 @@ public class PlayerRunner : EntidadeRunner
 
     [Header("Sistema de Seguidores")]
     public float distanciaEntreSeguidores = 1.2f;
+    public float atrasoPorSeguidor = 0.15f;
     public List<TipoAlimento> alimentosColetados = new List<TipoAlimento>();
-    public List<float> jumpPointsX = new List<float>();
-    private int _quantidadeSeguidores = 0;
+    public List<Follower> filaSeguidores = new List<Follower>();
 
     private GameInput _input;
     private bool _isGrounded;
@@ -27,11 +27,10 @@ public class PlayerRunner : EntidadeRunner
         _input = new GameInput();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        rb.linearVelocity = new Vector2(stats.forwardSpeed, rb.linearVelocity.y);
         _isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
-        Gravity();
+        GravityAndPhysics();
     }
 
     private void OnEnable()
@@ -50,25 +49,26 @@ public class PlayerRunner : EntidadeRunner
     {
         if (_isGrounded)
         {
-            rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0f);
-            rb.AddForce(Vector2.up * stats.jumpForce, ForceMode2D.Impulse);
-            jumpPointsX.Add(transform.position.x);
+            IniciarPulo();
+            for (int i = 0; i < filaSeguidores.Count; i++)
+            {
+                float tempoDeAtraso = (i + 1) * atrasoPorSeguidor;
+                filaSeguidores[i].PularComAtraso(tempoDeAtraso);
+            }
         }
     }
 
     public void AdicionarSeguidor(Follower prefabFollower, TipoAlimento tipo)
     {
-        _quantidadeSeguidores++;
         alimentosColetados.Add(tipo);
 
-        float posicaoX = transform.position.x - (_quantidadeSeguidores * distanciaEntreSeguidores);
+        float posicaoX = transform.position.x - ((filaSeguidores.Count + 1) * distanciaEntreSeguidores);
         Vector3 posicaoSpawn = new Vector3(posicaoX, transform.position.y, transform.position.z);
 
         Follower novoSeguidor = Instantiate(prefabFollower, posicaoSpawn, Quaternion.identity);
-
-        novoSeguidor.player = this;
         novoSeguidor.tipo = tipo;
-        novoSeguidor.SincronicazarPlayer();
+
+        filaSeguidores.Add(novoSeguidor);
     }
 
     private void OnDrawGizmosSelected()

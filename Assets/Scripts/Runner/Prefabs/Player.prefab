@@ -114,8 +114,9 @@ MonoBehaviour:
   groundCheck: {fileID: 5288567371894398723}
   groundCheckRadius: 0.1
   distanciaEntreSeguidores: 1.2
+  atrasoPorSeguidor: 0.15
   alimentosColetados: 
-  jumpPointsX: []
+  filaSeguidores: []
 --- !u!50 &528328815105545932
 Rigidbody2D:
   serializedVersion: 5

@@ -151,7 +151,6 @@ MonoBehaviour:
   player: {fileID: 1329926867}
   chunkPrefabs:
   - {fileID: 7890938607100772127, guid: 707a087de7081504f83a792eb3c7ce3b, type: 3}
-  - {fileID: 573352074294018594, guid: 65c4ac009988b8d40a3f87e496c5f1dd, type: 3}
   startChunk: {fileID: 946415816}
   spawnDistanceAhead: 20
   despawnDistanceBehind: 15
@@ -2425,8 +2424,8 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3630355161457289671, guid: cb2dd099ee766854c9cc12fb370aad2c, type: 3}
-      propertyPath: groundLayer.m_Bits
-      value: 128
+      propertyPath: atrasoPorSeguidor
+      value: 0.15
       objectReference: {fileID: 0}
     - target: {fileID: 3630355161457289671, guid: cb2dd099ee766854c9cc12fb370aad2c, type: 3}
       propertyPath: fallGravityMultiplier
