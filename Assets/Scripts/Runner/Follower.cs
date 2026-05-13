@@ -6,6 +6,7 @@ public class Follower : EntidadeRunner
 {
     [Header("Configurações")]
     public TipoAlimento tipo;
+    public PlayerRunner player;
 
     protected override void Awake()
     {

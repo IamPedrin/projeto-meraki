@@ -66,9 +66,16 @@ public class PlayerRunner : EntidadeRunner
         Vector3 posicaoSpawn = new Vector3(posicaoX, transform.position.y, transform.position.z);
 
         Follower novoSeguidor = Instantiate(prefabFollower, posicaoSpawn, Quaternion.identity);
+        
         novoSeguidor.tipo = tipo;
+        novoSeguidor.player = this;
 
         filaSeguidores.Add(novoSeguidor);
+    }
+
+    public void GameOver()
+    {
+        GameManager.Instance.MostrarGameOver(alimentosColetados.Count);
     }
 
     private void OnDrawGizmosSelected()
@@ -77,4 +84,6 @@ public class PlayerRunner : EntidadeRunner
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
     }
+
+
 }

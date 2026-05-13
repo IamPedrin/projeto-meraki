@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4128f6bd3e23d28458a07b3e6f6232d5, type: 3}
   m_Name: BaseRunnerStats
   m_EditorClassIdentifier: Assembly-CSharp::RunnerStats
-  forwardSpeed: 5
+  forwardSpeed: 6
   jumpForce: 20
-  baseGravity: 4
+  baseGravity: 3
   fallGravityMultiplier: 1.1
   maxFallSpeed: -20
