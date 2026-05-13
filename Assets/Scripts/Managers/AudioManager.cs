@@ -7,9 +7,9 @@ public class AudioManager : MonoBehaviour
 
     public Sound[] musicSounds, sfxSounds;
     public AudioSource musicSource, sfxSource;
-    private float musicVolume = 1f;
-    private float sfxVolume = 1f;
-    private float masterVolume = 1f;
+    private float musicVolume = 0.1f;
+    private float sfxVolume = 0.1f;
+    private float masterVolume = 0.1f;
 
     private void Awake()
     {
@@ -96,9 +96,9 @@ public class AudioManager : MonoBehaviour
 
     public void LoadSettings()
     {
-        masterVolume = PlayerPrefs.GetFloat("MasterVolume", 1f);
-        musicVolume = PlayerPrefs.GetFloat("MusicVolume", 1f);
-        sfxVolume = PlayerPrefs.GetFloat("SFXVolume", 1f);
+        masterVolume = PlayerPrefs.GetFloat("MasterVolume", 0.1f);
+        musicVolume = PlayerPrefs.GetFloat("MusicVolume", 0.1f);
+        sfxVolume = PlayerPrefs.GetFloat("SFXVolume", 0.1f);
         ApplyVolumes();
     }
 
