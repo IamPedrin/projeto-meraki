@@ -99,8 +99,7 @@ public class PlayerRunner : EntidadeRunner
 
     private void AtualizarFormacaoDaTela(Follower prefabNovo)
     {
-        // Matemática Mágica
-        // Ex: Se tem 12 ativos -> 12 / 5 = 2. Então 2 * 5 = 10 na Cesta. Sobram 2 na Fila.
+
         int itensNaCesta = (_alimentosAtivos / limiteParaCesta) * limiteParaCesta;
         int itensNaFila = _alimentosAtivos % limiteParaCesta;
 
@@ -138,15 +137,37 @@ public class PlayerRunner : EntidadeRunner
             int offsetCesta = (_instaciaCestaFollower != null) ? 1 : 0;
             int indiceVisual = filaSeguidores.Count + 1 + offsetCesta;
 
-            // Eles nascem atrás da cesta (se existir)
+            // 1. O SEGREDO: Descobre quem está logo na frente para copiar a Altura e Velocidade!
+            float alturaY = transform.position.y; // Padrão: copia o líder
+            Vector2 velocidadeReferencia = rb.linearVelocity;
+
+            if (filaSeguidores.Count > 0)
+            {
+                // Copia do último boneco da fila
+                Follower daFrente = filaSeguidores[filaSeguidores.Count - 1];
+                alturaY = daFrente.transform.position.y;
+                velocidadeReferencia = daFrente.GetComponent<Rigidbody2D>().linearVelocity;
+            }
+            else if (_instaciaCestaFollower != null)
+            {
+                // Se não tem ninguém na fila, copia direto da Cesta
+                alturaY = _instaciaCestaFollower.transform.position.y;
+                velocidadeReferencia = _instaciaCestaFollower.GetComponent<Rigidbody2D>().linearVelocity;
+            }
+
+            // 2. Calcula a posição com a nova altura
             float posX = transform.position.x - (indiceVisual * distanciaEntreSeguidores);
-            Vector3 posSpawn = new Vector3(posX, transform.position.y, transform.position.z);
+            Vector3 posSpawn = new Vector3(posX, alturaY + 0.5f, transform.position.z);
 
             Follower prefabUsado = (prefabNovo != null) ? prefabNovo : prefabFollowerPadrao;
-
             Follower novoBoneco = Instantiate(prefabUsado, posSpawn, Quaternion.identity);
             novoBoneco.player = this;
+
+            novoBoneco.GetComponent<Rigidbody2D>().linearVelocity = velocidadeReferencia;
+
             filaSeguidores.Add(novoBoneco);
+
+            prefabNovo = null;
         }
     }
 
@@ -158,7 +179,7 @@ public class PlayerRunner : EntidadeRunner
             int itensNaCesta = (_alimentosAtivos / limiteParaCesta) * limiteParaCesta;
             _alimentosAtivos -= itensNaCesta;
 
-            _instaciaCestaFollower = null; 
+            _instaciaCestaFollower = null;
         }
 
         else if (filaSeguidores.Contains(seguidorQueCaiu))
