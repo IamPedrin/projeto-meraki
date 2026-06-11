@@ -115,6 +115,9 @@ MonoBehaviour:
   groundCheckRadius: 0.1
   distanciaEntreSeguidores: 1.2
   atrasoPorSeguidor: 0.15
+  limiteParaCesta: 5
+  prefabCestaFollower: {fileID: 7355636592511602563, guid: d8918b5f160368d4d9cde8be387f7b57, type: 3}
+  prefabFollowerPadrao: {fileID: 3303268125771257871, guid: 01633dc4ef58fa147adab5ac61879dd7, type: 3}
   alimentosColetados: 
   filaSeguidores: []
 --- !u!50 &528328815105545932
