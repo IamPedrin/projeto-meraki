@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/CenaSetup.unity
     guid: f0fbb5cd749c07f489f558dd92fec24c
   - enabled: 1
+    path: Assets/Scenes/HubPrincipal.unity
+    guid: 28aa2c9c5cc313648946f21fae4e7545
+  - enabled: 0
     path: Assets/Scenes/MainMenu.unity
     guid: 0ba9d7ff722237b4d9a5723beff2b32f
   - enabled: 1

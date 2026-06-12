@@ -5,11 +5,12 @@ using UnityEngine.SceneManagement;
 
 public class SetupManager : MonoBehaviour
 {
+    [SerializeField] private string SceneHub = "HubPrincipal";
     [Header("Interface")]
     public TMP_InputField campoNome;
     public Button botaoConfirmar;
 
-    [Header("Visuais de Seleção (Opcional)")]
+    [Header("Visuais de Seleção")]
     public Image fundoAvatarMasculino;
     public Image fundoAvatarFeminino;
     public Color corSelecionado = Color.green;
@@ -21,7 +22,7 @@ public class SetupManager : MonoBehaviour
     {
         if (PlayerPrefs.GetInt("CadastroCompleto", 0) == 1)
         {
-            SceneManager.LoadScene("MainMenu");
+            SceneManager.LoadScene(SceneHub);
             return;
         }
 
@@ -70,6 +71,6 @@ public class SetupManager : MonoBehaviour
         PlayerPrefs.SetInt("CadastroCompleto", 1);
         PlayerPrefs.Save();
 
-        SceneManager.LoadScene("MainMenu");
+        SceneManager.LoadScene(SceneHub);
     }
 }

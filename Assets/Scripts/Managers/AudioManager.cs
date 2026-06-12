@@ -96,9 +96,9 @@ public class AudioManager : MonoBehaviour
 
     public void LoadSettings()
     {
-        masterVolume = PlayerPrefs.GetFloat("MasterVolume", 0.1f);
-        musicVolume = PlayerPrefs.GetFloat("MusicVolume", 0.1f);
-        sfxVolume = PlayerPrefs.GetFloat("SFXVolume", 0.1f);
+        masterVolume = PlayerPrefs.GetFloat("MasterVolume", 0.2f);
+        musicVolume = PlayerPrefs.GetFloat("MusicVolume", 0.2f);
+        sfxVolume = PlayerPrefs.GetFloat("SFXVolume", 0.4f);
         ApplyVolumes();
     }
 
