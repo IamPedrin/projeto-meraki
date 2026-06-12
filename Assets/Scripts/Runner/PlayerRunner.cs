@@ -198,6 +198,22 @@ public class PlayerRunner : EntidadeRunner
     {
         GameManager.Instance.MostrarGameOver(alimentosColetados.Count);
     }
+    public int ObterQuantidadeAtivos()
+    {
+        return _alimentosAtivos;
+    }
+
+    public void EntregarAlimentos(int quantidade)
+    {
+        _alimentosAtivos -= quantidade;
+
+        if (_alimentosAtivos < 0)
+        {
+            _alimentosAtivos = 0;
+        }
+
+        AtualizarFormacaoDaTela(null);
+    }
 
     private void OnDrawGizmosSelected()
     {
