@@ -3,7 +3,6 @@ using UnityEngine;
 public class ObstaculoMalsAlimentos : MonoBehaviour
 {
     [Header("Configurações do Obstáculo")]
-    [Tooltip("Quantos seguidores a criança perde ao bater aqui?")]
     public int dano = 2;
 
     [Header("Efeitos Visuais")]

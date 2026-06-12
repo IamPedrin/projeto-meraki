@@ -18,11 +18,10 @@ public class ZonaMorte : MonoBehaviour
             Follower seguidor = colisao.GetComponent<Follower>();
             if (seguidor != null && seguidor.player != null)
             {
-                // Avisa o líder EXATAMENTE quem foi que caiu
+
                 seguidor.player.RemoverSeguidorQueCaiu(seguidor);
             }
 
-            // Destrói o objeto que caiu no buraco
             Destroy(colisao.gameObject);
         }
     }

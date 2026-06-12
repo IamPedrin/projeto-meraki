@@ -4,7 +4,6 @@ using TMPro;
 public class MostrarNomeJogador : MonoBehaviour
 {
     [Header("Interface")]
-    [Tooltip("Arraste o texto do Canvas onde o nome deve aparecer")]
     public TextMeshProUGUI textoDeBoasVindas;
 
     private void Start()

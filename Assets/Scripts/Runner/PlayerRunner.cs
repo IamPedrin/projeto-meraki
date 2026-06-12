@@ -103,12 +103,12 @@ public class PlayerRunner : EntidadeRunner
         int itensNaCesta = (_alimentosAtivos / limiteParaCesta) * limiteParaCesta;
         int itensNaFila = _alimentosAtivos % limiteParaCesta;
 
-        // 1. GERENCIA A CESTA (Posição 1)
+
         if (itensNaCesta >= limiteParaCesta)
         {
             if (_instaciaCestaFollower == null)
             {
-                // Nasce LOGO ATRÁS do jogador
+
                 float posX = transform.position.x - distanciaEntreSeguidores;
                 Vector3 posSpawn = new Vector3(posX, transform.position.y, transform.position.z);
 
@@ -119,7 +119,7 @@ public class PlayerRunner : EntidadeRunner
         }
         else if (_instaciaCestaFollower != null)
         {
-            // O dano foi tanto que perdeu os 5 da cesta. Destrói ela!
+
             Destroy(_instaciaCestaFollower.gameObject);
             _instaciaCestaFollower = null;
         }
@@ -137,25 +137,22 @@ public class PlayerRunner : EntidadeRunner
             int offsetCesta = (_instaciaCestaFollower != null) ? 1 : 0;
             int indiceVisual = filaSeguidores.Count + 1 + offsetCesta;
 
-            // 1. O SEGREDO: Descobre quem está logo na frente para copiar a Altura e Velocidade!
-            float alturaY = transform.position.y; // Padrão: copia o líder
+            float alturaY = transform.position.y; 
             Vector2 velocidadeReferencia = rb.linearVelocity;
 
             if (filaSeguidores.Count > 0)
             {
-                // Copia do último boneco da fila
+
                 Follower daFrente = filaSeguidores[filaSeguidores.Count - 1];
                 alturaY = daFrente.transform.position.y;
                 velocidadeReferencia = daFrente.GetComponent<Rigidbody2D>().linearVelocity;
             }
             else if (_instaciaCestaFollower != null)
             {
-                // Se não tem ninguém na fila, copia direto da Cesta
                 alturaY = _instaciaCestaFollower.transform.position.y;
                 velocidadeReferencia = _instaciaCestaFollower.GetComponent<Rigidbody2D>().linearVelocity;
             }
 
-            // 2. Calcula a posição com a nova altura
             float posX = transform.position.x - (indiceVisual * distanciaEntreSeguidores);
             Vector3 posSpawn = new Vector3(posX, alturaY + 0.5f, transform.position.z);
 
@@ -184,7 +181,7 @@ public class PlayerRunner : EntidadeRunner
 
         else if (filaSeguidores.Contains(seguidorQueCaiu))
         {
-            _alimentosAtivos--; // Perde só 1
+            _alimentosAtivos--;
             filaSeguidores.Remove(seguidorQueCaiu);
         }
 
