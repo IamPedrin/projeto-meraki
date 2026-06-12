@@ -17,6 +17,11 @@ public class BancoMoedas : MonoBehaviour
 
         PlayerPrefs.SetInt(CHAVE_MOEDAS, saldoAtual);
         PlayerPrefs.Save();
+
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.AtualizarHUDMoedas();
+        }
     }
 
     public static bool GastarMoedas(int quantidade)

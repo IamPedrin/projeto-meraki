@@ -47,6 +47,8 @@ public class PontoDeEntrega : MonoBehaviour
 
                 leader.EntregarAlimentos(quantidadeNecessaria);
 
+                BancoMoedas.AdicionarMoedas(recompensaMoedas);
+
                 Destroy(gameObject);
             }
 

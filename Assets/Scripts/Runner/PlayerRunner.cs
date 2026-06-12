@@ -196,7 +196,7 @@ public class PlayerRunner : EntidadeRunner
 
     public void GameOver()
     {
-        GameManager.Instance.MostrarGameOver(alimentosColetados.Count);
+        GameManager.Instance.MostrarGameOver();
     }
     public int ObterQuantidadeAtivos()
     {
