@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc0085dabc7f43c4287ff67083c62ca3, type: 3}
+  m_Name: Maca
+  m_EditorClassIdentifier: Assembly-CSharp::AlimentoSO
+  idUnico: maca
+  nomeAlimento: "Ma\xE7\xE3"
+  iconeVisual: {fileID: 7161268180630708012, guid: 180196fe966b01d4092ed3c37542e410, type: 3}
+  precoMoedas: 29
+  categoria: 0
+  descricao: "Uma ma\xE7a com muito potassio"
