@@ -8,6 +8,11 @@ public class MostrarMoedas : MonoBehaviour
 
     private void Start()
     {
+        AtualizarTela();
+    }
+
+    public void AtualizarTela()
+    {
         int moedasDisponiveis = PlayerPrefs.GetInt("MoedasTotais", 0);
 
         if (moedas != null)

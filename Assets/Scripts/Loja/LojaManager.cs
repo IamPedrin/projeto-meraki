@@ -20,12 +20,15 @@ public class LojaManager : MonoBehaviour
     public TextMeshProUGUI textoTotalMoedas;
 
     [Header("Pop-up de Detalhes")]
-    public GameObject painelPopup; // A tela inteira do popup (Fundo escuro + janela)
+    public GameObject painelPopup;
     public Image imagemPopup;
     public TextMeshProUGUI textoNomePopup;
     public TextMeshProUGUI textoDescricaoPopup;
     public TextMeshProUGUI textoCategoriaPopup;
     public TextMeshProUGUI textoPrecoPopup;
+
+    [Header("Feedbacks Visuais")]
+    public TextMeshProUGUI textoAvisoCompra;
 
     private AlimentoSO _alimentoNoPopupAtual;
     private int _valorTotalCarrinho = 0;
@@ -119,13 +122,46 @@ public class LojaManager : MonoBehaviour
 
         if (BancoMoedas.GastarMoedas(_valorTotalCarrinho))
         {
-            Debug.Log("Compra Aprovada! Itens indo para a despensa...");
+            foreach (AlimentoSO item in _itensNoCarrinho)
+            {
+                InventarioManager.AdicionarAlimento(item.idUnico, 1);
+            }
+
             EsvaziarCarrinho();
+
+            MostrarMoedas scriptMoedas = FindAnyObjectByType<MostrarMoedas>();
+            if (scriptMoedas != null)
+            {
+                scriptMoedas.AtualizarTela();
+            }
+
+            MostrarAviso("Compra realizada com sucesso!", Color.green);
+            Invoke("FecharLojaTotalmente", 1.5f);
+
         }
         else
         {
-            Debug.Log("Moedas Insuficientes!");
+            MostrarAviso("Moedas Insuficientes!", Color.red);
         }
+    }
+
+    private void MostrarAviso(string mensagem, Color cor)
+    {
+        if (textoAvisoCompra != null)
+        {
+            textoAvisoCompra.gameObject.SetActive(true);
+            textoAvisoCompra.text = mensagem;
+            textoAvisoCompra.color = cor;
+
+            CancelInvoke("EsconderAviso");
+            Invoke("EsconderAviso", 3f);
+        }
+    }
+
+    private void EsconderAviso()
+    {
+        if (textoAvisoCompra != null) textoAvisoCompra.text = "";
+        textoAvisoCompra.gameObject.SetActive(false);
     }
 
     private void EsvaziarCarrinho()
@@ -135,4 +171,14 @@ public class LojaManager : MonoBehaviour
         foreach (Transform filho in conteinerDoCarrinho) Destroy(filho.gameObject);
         AtualizarUICarrinho();
     }
+
+    private void FecharLojaTotalmente()
+    {
+        if (painelLoja != null)
+        {
+            painelLoja.SetActive(false);
+        }
+        EsconderAviso();
+    }
+
 }
