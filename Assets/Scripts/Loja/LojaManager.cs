@@ -5,62 +5,92 @@ using TMPro;
 public class LojaManager : MonoBehaviour
 {
     [Header("Banco de Dados")]
-    [Tooltip("Arraste todos os arquivos de alimentos (AlimentoSO) criados aqui")]
     public List<AlimentoSO> catalogoDeAlimentos;
 
-    public GameObject PanelLoja;
+    [Header("Configurações de UI")]
+    public GameObject painelLoja;
 
     [Header("Prateleira (Geração Dinâmica)")]
-    public Transform conteinerDaPrateleira; 
-    public GameObject prefabBotaoAlimento; 
+    public Transform conteinerDaPrateleira;
+    public GameObject prefabBotaoAlimento;
 
     [Header("Carrinho Visual")]
-    public Transform conteinerDoCarrinho;  
-    public GameObject prefabIconeCarrinho; 
+    public Transform conteinerDoCarrinho;
+    public GameObject prefabIconeCarrinho;
     public TextMeshProUGUI textoTotalMoedas;
+
+    [Header("Pop-up de Detalhes")]
+    public GameObject painelPopup; // A tela inteira do popup (Fundo escuro + janela)
+    public Image imagemPopup;
+    public TextMeshProUGUI textoNomePopup;
+    public TextMeshProUGUI textoDescricaoPopup;
+    public TextMeshProUGUI textoCategoriaPopup;
+    public TextMeshProUGUI textoPrecoPopup;
 
     private AlimentoSO _alimentoNoPopupAtual;
     private int _valorTotalCarrinho = 0;
-
     private List<AlimentoSO> _itensNoCarrinho = new List<AlimentoSO>();
 
     private void Start()
     {
+        // Garante que o popup comece invisível
+        if (painelPopup != null) painelPopup.SetActive(false);
+
         GerarPrateleirasDinamicamente();
         AtualizarUICarrinho();
     }
 
     public void AbrirLoja()
     {
-        PanelLoja.SetActive(true);
+        painelLoja.SetActive(true);
     }
 
     public void FecharLoja()
     {
-        PanelLoja.SetActive(false);
+        painelLoja.SetActive(false);
     }
 
     private void GerarPrateleirasDinamicamente()
     {
-        foreach (Transform filho in conteinerDaPrateleira)
-        {
-            Destroy(filho.gameObject);
-        }
+        foreach (Transform filho in conteinerDaPrateleira) Destroy(filho.gameObject);
 
         foreach (AlimentoSO alimento in catalogoDeAlimentos)
         {
             GameObject novoBotao = Instantiate(prefabBotaoAlimento, conteinerDaPrateleira);
-            BotaoAlimentosDinamicos scriptDoBotao = novoBotao.GetComponent<BotaoAlimentosDinamicos>();
-
-            scriptDoBotao.ConfigurarBotao(alimento, this);
+            novoBotao.GetComponent<BotaoAlimentosDinamicos>().ConfigurarBotao(alimento, this);
         }
     }
 
     public void PrepararPopup(AlimentoSO alimentoClicado)
     {
         _alimentoNoPopupAtual = alimentoClicado;
-        Debug.Log("Abrindo popup para: " + alimentoClicado.nomeAlimento);
 
+        imagemPopup.sprite = alimentoClicado.iconeVisual;
+        textoNomePopup.text = alimentoClicado.nomeAlimento;
+        textoDescricaoPopup.text = alimentoClicado.descricao;
+        textoPrecoPopup.text = alimentoClicado.precoMoedas.ToString();
+
+        textoCategoriaPopup.text = FormatarCategoria(alimentoClicado.categoria);
+
+        painelPopup.SetActive(true);
+    }
+
+    public void FecharPopup()
+    {
+        painelPopup.SetActive(false);
+        _alimentoNoPopupAtual = null;
+    }
+
+    private string FormatarCategoria(CategoriaAlimento cat)
+    {
+        switch (cat)
+        {
+            case CategoriaAlimento.InNatura: return "In Natura";
+            case CategoriaAlimento.MinimamenteProcessado: return "Minimamente Processado";
+            case CategoriaAlimento.Processado: return "Processado";
+            case CategoriaAlimento.Ultraprocessado: return "Ultraprocessado";
+            default: return "";
+        }
     }
 
     public void AdicionarAoCarrinho()
@@ -74,11 +104,13 @@ public class LojaManager : MonoBehaviour
         iconeVisual.GetComponent<Image>().sprite = _alimentoNoPopupAtual.iconeVisual;
 
         AtualizarUICarrinho();
+
+        FecharPopup();
     }
 
     private void AtualizarUICarrinho()
     {
-        textoTotalMoedas.text = _valorTotalCarrinho.ToString();
+        if (textoTotalMoedas != null) textoTotalMoedas.text = _valorTotalCarrinho.ToString();
     }
 
     public void BotaoComprar()
@@ -87,9 +119,7 @@ public class LojaManager : MonoBehaviour
 
         if (BancoMoedas.GastarMoedas(_valorTotalCarrinho))
         {
-            Debug.Log("Compra Aprovada! Itens indo para a cozinha...");
-
-
+            Debug.Log("Compra Aprovada! Itens indo para a despensa...");
             EsvaziarCarrinho();
         }
         else
@@ -102,12 +132,7 @@ public class LojaManager : MonoBehaviour
     {
         _itensNoCarrinho.Clear();
         _valorTotalCarrinho = 0;
-
-        foreach (Transform filho in conteinerDoCarrinho)
-        {
-            Destroy(filho.gameObject);
-        }
-
+        foreach (Transform filho in conteinerDoCarrinho) Destroy(filho.gameObject);
         AtualizarUICarrinho();
     }
 }

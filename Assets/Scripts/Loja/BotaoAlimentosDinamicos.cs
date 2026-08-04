@@ -17,6 +17,9 @@ public class BotaoAlimentosDinamicos : MonoBehaviour
 
         GetComponent<Image>().sprite = alimento.iconeVisual;
         textoPreco.text = alimento.precoMoedas.ToString();
+
+        Button meuBotao = GetComponent<Button>();
+        meuBotao.onClick.AddListener(ClicarNoBotao);
     }
 
     public void ClicarNoBotao()
