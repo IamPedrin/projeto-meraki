@@ -6,11 +6,7 @@ public class ZonaMorte : MonoBehaviour
     {
         if (colisao.CompareTag("Player"))
         {
-            PlayerRunner player = colisao.GetComponent<PlayerRunner>();
-            if (player != null)
-            {
-                player.GameOver();
-            }
+            GameManager.Instance.MostrarGameOver();
         }
 
         else if (colisao.CompareTag("Follower"))
@@ -18,7 +14,6 @@ public class ZonaMorte : MonoBehaviour
             Follower seguidor = colisao.GetComponent<Follower>();
             if (seguidor != null && seguidor.player != null)
             {
-
                 seguidor.player.RemoverSeguidorQueCaiu(seguidor);
             }
 

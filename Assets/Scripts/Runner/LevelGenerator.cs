@@ -8,6 +8,11 @@ public class LevelGenerator : MonoBehaviour
     public LevelChunk[] chunkPrefabs;
     public LevelChunk startChunk;
 
+    [Header("O Fim da Fase")]
+    public LevelChunk finishLineChunk;
+    public float distanciaParaVencer = 1200f;
+    private bool _jaGerouChegada = false;
+
     [Header("Configurações")]
     public float spawnDistanceAhead = 30f;
     public float despawnDistanceBehind = 20f;
@@ -15,7 +20,6 @@ public class LevelGenerator : MonoBehaviour
 
     private Vector3 _nextSpawnPosition;
     private Queue<LevelChunk> _activeChunks = new Queue<LevelChunk>();
-
     private Dictionary<int, List<LevelChunk>> _chunkPools = new Dictionary<int, List<LevelChunk>>();
 
     private void Start()
@@ -33,9 +37,16 @@ public class LevelGenerator : MonoBehaviour
 
     private void Update()
     {
-        if (player.position.x + spawnDistanceAhead > _nextSpawnPosition.x)
+        if (!_jaGerouChegada && player.position.x + spawnDistanceAhead > _nextSpawnPosition.x)
         {
-            SpawnChunk();
+            if (_nextSpawnPosition.x >= distanciaParaVencer)
+            {
+                SpawnFinishLine();
+            }
+            else
+            {
+                SpawnChunk();
+            }
         }
 
         if (_activeChunks.Count > 0)
@@ -100,5 +111,13 @@ public class LevelGenerator : MonoBehaviour
         {
             chunkToRemove.gameObject.SetActive(false);
         }
+    }
+
+    private void SpawnFinishLine()
+    {
+        _jaGerouChegada = true;
+        
+        LevelChunk chunkFinal = Instantiate(finishLineChunk, _nextSpawnPosition, Quaternion.identity);
+        _activeChunks.Enqueue(chunkFinal);
     }
 }

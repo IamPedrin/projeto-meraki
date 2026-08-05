@@ -45,7 +45,7 @@ GameObject:
   - component: {fileID: 3303268125771257871}
   - component: {fileID: 6804249610606350960}
   m_Layer: 8
-  m_Name: FollowerFruta
+  m_Name: FMaca
   m_TagString: Follower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -116,8 +116,8 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.36209506, g: 0.6648356, b: 0.745283, a: 1}
+  m_Sprite: {fileID: 7161268180630708012, guid: 180196fe966b01d4092ed3c37542e410, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -166,7 +166,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Follower
   stats: {fileID: 11400000, guid: d5c486b2f65a606439713a4d5c96b296, type: 2}
-  tipo: 1
   player: {fileID: 0}
 --- !u!70 &6804249610606350960
 CapsuleCollider2D:

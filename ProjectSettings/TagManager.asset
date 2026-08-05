@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 3
   tags:
   - Follower
+  - Ultraprocessado
+  - AlimentoBom
+  - LinhaChegada
   layers:
   - Default
   - TransparentFX

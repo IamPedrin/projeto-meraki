@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -12,7 +10,7 @@ public class PlayerRunner : EntidadeRunner
     [SerializeField] private Transform groundCheck;
     [SerializeField] private float groundCheckRadius = 0.1f;
 
-    [Header("Sistema de Seguidores")]
+    [Header("Sistema de Seguidores (Visual)")]
     public float distanciaEntreSeguidores = 1.2f;
     public float atrasoPorSeguidor = 0.15f;
     public int limiteParaCesta = 5;
@@ -20,11 +18,10 @@ public class PlayerRunner : EntidadeRunner
     public Follower prefabFollowerPadrao;
 
     private CestaFollower _instaciaCestaFollower;
-    private int _alimentosAtivos = 0;
-
-    public List<TipoAlimento> alimentosColetados = new List<TipoAlimento>();
+    private int _alimentosVisuaisAtivos = 0;
     public List<Follower> filaSeguidores = new List<Follower>();
 
+    private bool _corridaFinalizada = false;
     private GameInput _input;
     private bool _isGrounded;
 
@@ -37,6 +34,12 @@ public class PlayerRunner : EntidadeRunner
     private void FixedUpdate()
     {
         _isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+
+        if (_corridaFinalizada)
+        {
+            rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
+            return;
+        }
         GravityAndPhysics();
     }
 
@@ -65,7 +68,6 @@ public class PlayerRunner : EntidadeRunner
                 offsetCesta = 1;
             }
 
-
             for (int i = 0; i < filaSeguidores.Count; i++)
             {
                 float tempoDeAtraso = (i + 1 + offsetCesta) * atrasoPorSeguidor;
@@ -74,44 +76,47 @@ public class PlayerRunner : EntidadeRunner
         }
     }
 
-    public void AdicionarSeguidor(Follower prefabNovo, TipoAlimento tipo)
+    private void OnTriggerEnter2D(Collider2D colisao)
     {
-        GameManager.Instance.AdicionarPontoHUD();
-        alimentosColetados.Add(tipo);
-
-        _alimentosAtivos++;
-
-        AtualizarFormacaoDaTela(prefabNovo);
-    }
-
-    public void PerderSeguidores(int dano)
-    {
-        if (_alimentosAtivos <= dano)
+        if (colisao.CompareTag("AlimentoBom"))
         {
-            GameOver();
-            return;
+            GameManager.Instance.AdicionarPontoHUD();
+
+            _alimentosVisuaisAtivos++;
+            AtualizarFormacaoDaTela();
+
+            if (AudioManager.Instance != null) AudioManager.Instance.PlaySFX("coletar");
+            Destroy(colisao.gameObject);
         }
+        else if (colisao.CompareTag("Ultraprocessado"))
+        {
+            GameManager.Instance.SofrerPunicao();
 
-        _alimentosAtivos -= dano;
+            if (_alimentosVisuaisAtivos > 0)
+            {
+                _alimentosVisuaisAtivos--;
+                AtualizarFormacaoDaTela();
+            }
 
-        AtualizarFormacaoDaTela(null);
+            Destroy(colisao.gameObject);
+        }
+        else if (colisao.CompareTag("LinhaChegada"))
+        {
+            _corridaFinalizada = true; // Aciona o nosso freio de mão!
+            GameManager.Instance.IniciarSequenciaDeVitoria();
+        }
     }
 
-    private void AtualizarFormacaoDaTela(Follower prefabNovo)
+    private void AtualizarFormacaoDaTela()
     {
-
-        int itensNaCesta = (_alimentosAtivos / limiteParaCesta) * limiteParaCesta;
-        int itensNaFila = _alimentosAtivos % limiteParaCesta;
-
+        int itensNaCesta = (_alimentosVisuaisAtivos / limiteParaCesta) * limiteParaCesta;
+        int itensNaFila = _alimentosVisuaisAtivos % limiteParaCesta;
 
         if (itensNaCesta >= limiteParaCesta)
         {
             if (_instaciaCestaFollower == null)
             {
-
-                float posX = transform.position.x - distanciaEntreSeguidores;
-                Vector3 posSpawn = new Vector3(posX, transform.position.y, transform.position.z);
-
+                Vector3 posSpawn = new Vector3(transform.position.x - distanciaEntreSeguidores, transform.position.y, transform.position.z);
                 _instaciaCestaFollower = Instantiate(prefabCestaFollower, posSpawn, Quaternion.identity);
                 _instaciaCestaFollower.player = this;
             }
@@ -119,7 +124,6 @@ public class PlayerRunner : EntidadeRunner
         }
         else if (_instaciaCestaFollower != null)
         {
-
             Destroy(_instaciaCestaFollower.gameObject);
             _instaciaCestaFollower = null;
         }
@@ -131,40 +135,15 @@ public class PlayerRunner : EntidadeRunner
             if (ultimo != null) Destroy(ultimo.gameObject);
         }
 
-
         while (filaSeguidores.Count < itensNaFila)
         {
             int offsetCesta = (_instaciaCestaFollower != null) ? 1 : 0;
             int indiceVisual = filaSeguidores.Count + 1 + offsetCesta;
 
-            float alturaY = transform.position.y; 
-            Vector2 velocidadeReferencia = rb.linearVelocity;
-
-            if (filaSeguidores.Count > 0)
-            {
-
-                Follower daFrente = filaSeguidores[filaSeguidores.Count - 1];
-                alturaY = daFrente.transform.position.y;
-                velocidadeReferencia = daFrente.GetComponent<Rigidbody2D>().linearVelocity;
-            }
-            else if (_instaciaCestaFollower != null)
-            {
-                alturaY = _instaciaCestaFollower.transform.position.y;
-                velocidadeReferencia = _instaciaCestaFollower.GetComponent<Rigidbody2D>().linearVelocity;
-            }
-
-            float posX = transform.position.x - (indiceVisual * distanciaEntreSeguidores);
-            Vector3 posSpawn = new Vector3(posX, alturaY + 0.5f, transform.position.z);
-
-            Follower prefabUsado = (prefabNovo != null) ? prefabNovo : prefabFollowerPadrao;
-            Follower novoBoneco = Instantiate(prefabUsado, posSpawn, Quaternion.identity);
+            Vector3 posSpawn = new Vector3(transform.position.x - (indiceVisual * distanciaEntreSeguidores), transform.position.y + 0.5f, transform.position.z);
+            Follower novoBoneco = Instantiate(prefabFollowerPadrao, posSpawn, Quaternion.identity);
             novoBoneco.player = this;
-
-            novoBoneco.GetComponent<Rigidbody2D>().linearVelocity = velocidadeReferencia;
-
             filaSeguidores.Add(novoBoneco);
-
-            prefabNovo = null;
         }
     }
 
@@ -172,44 +151,29 @@ public class PlayerRunner : EntidadeRunner
     {
         if (_instaciaCestaFollower != null && seguidorQueCaiu.gameObject == _instaciaCestaFollower.gameObject)
         {
-
-            int itensNaCesta = (_alimentosAtivos / limiteParaCesta) * limiteParaCesta;
-            _alimentosAtivos -= itensNaCesta;
-
+            int itensNaCesta = (_alimentosVisuaisAtivos / limiteParaCesta) * limiteParaCesta;
+            _alimentosVisuaisAtivos -= itensNaCesta;
             _instaciaCestaFollower = null;
         }
-
         else if (filaSeguidores.Contains(seguidorQueCaiu))
         {
-            _alimentosAtivos--;
+            _alimentosVisuaisAtivos--;
             filaSeguidores.Remove(seguidorQueCaiu);
         }
 
+        if (_alimentosVisuaisAtivos < 0) _alimentosVisuaisAtivos = 0;
 
-        if (_alimentosAtivos < 0) _alimentosAtivos = 0;
-
-        AtualizarFormacaoDaTela(null);
+        AtualizarFormacaoDaTela();
     }
 
     public void GameOver()
     {
-        GameManager.Instance.MostrarGameOver();
+        GameManager.Instance.IniciarSequenciaDeVitoria();
     }
+
     public int ObterQuantidadeAtivos()
     {
-        return _alimentosAtivos;
-    }
-
-    public void EntregarAlimentos(int quantidade)
-    {
-        _alimentosAtivos -= quantidade;
-
-        if (_alimentosAtivos < 0)
-        {
-            _alimentosAtivos = 0;
-        }
-
-        AtualizarFormacaoDaTela(null);
+        return _alimentosVisuaisAtivos;
     }
 
     private void OnDrawGizmosSelected()
@@ -218,6 +182,4 @@ public class PlayerRunner : EntidadeRunner
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
     }
-
-
 }
