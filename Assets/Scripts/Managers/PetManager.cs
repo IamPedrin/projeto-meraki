@@ -6,127 +6,105 @@ public class PetManager : MonoBehaviour
 {
     public static PetManager Instancia;
 
-    [Header("Status do Personagem")]
-    public float energia = 100f;
-    public float felicidade = 100f;
-
-    [Header("Configurações")]
-    public float perdaPorHora = 5f;
+    [Header("Status do Avatar")]
+    public float energiaAtual;
+    public float energiaMaxima = 100f;
 
     [Header("Interface")]
-    public Slider barraEnergia;
-    public Slider barraFelicidade;
+    public Slider sliderEnergia;
 
     private void Awake()
     {
-        Instancia = this;
+        if (Instancia == null) Instancia = this;
     }
 
     private void Start()
     {
-        CarregarStatusSalvos();
-        CalcularTempoOfflineEDescontar();
-        AtualizarBarrinhas();
+        CarregarStatus();
+        CalcularTempoOffline();
+        AtualizarUI();
 
-        // A cada 60 segundos (1 minuto), desconta um pouquinho de energia em tempo real
-        InvokeRepeating("DrenoEmTempoReal", 60f, 60f);
+        InvokeRepeating("DrenarEnergia", 60f, 60f);
     }
 
-    private void CalcularTempoOfflineEDescontar()
+    public void DarEnergia(float quantidade)
     {
-        string ultimaVezString = PlayerPrefs.GetString("UltimaVezJogado", "");
+        energiaAtual += quantidade;
+        energiaAtual = Mathf.Clamp(energiaAtual, 0, energiaMaxima);
 
-        if (!string.IsNullOrEmpty(ultimaVezString))
+        AtualizarUI();
+        SalvarStatus();
+    }
+
+    private void DrenarEnergia()
+    {
+        energiaAtual -= 2f;
+        energiaAtual = Mathf.Clamp(energiaAtual, 0, energiaMaxima);
+        AtualizarUI();
+    }
+
+    private void CalcularTempoOffline()
+    {
+        string tempoSalvo = PlayerPrefs.GetString("UltimoAcesso", "");
+        if (!string.IsNullOrEmpty(tempoSalvo))
         {
+            DateTime ultimoAcesso = DateTime.Parse(tempoSalvo);
+            TimeSpan tempoPassado = DateTime.Now - ultimoAcesso;
 
-            DateTime dataUltimaVez = DateTime.Parse(ultimaVezString);
+            float horasPassadas = (float)tempoPassado.TotalHours;
+            energiaAtual -= horasPassadas * 5f;
 
-            TimeSpan tempoPassado = DateTime.Now - dataUltimaVez;
-
-            float horasOffline = (float)tempoPassado.TotalHours;
-
-            float pontosPerdidos = horasOffline * perdaPorHora;
-
-            energia -= pontosPerdidos;
-            felicidade -= pontosPerdidos;
-
-            if (energia < 0) energia = 0;
-            if (felicidade < 0) felicidade = 0;
+            energiaAtual = Mathf.Clamp(energiaAtual, 0, energiaMaxima);
         }
     }
 
-    private void DrenoEmTempoReal()
+
+    public void SalvarStatus()
     {
-        float perdaPorMinuto = perdaPorHora / 60f;
+        PlayerPrefs.SetFloat("EnergiaAvatar", energiaAtual);
 
-        energia -= perdaPorMinuto;
-        felicidade -= perdaPorMinuto;
-
-        if (energia < 0) energia = 0;
-        if (felicidade < 0) felicidade = 0;
-
-        AtualizarBarrinhas();
-        SalvarStatus();
-    }
-
-    public void CuidarDoPersonagem(float ganhoEnergia, float ganhoFelicidade)
-    {
-        energia += ganhoEnergia;
-        felicidade += ganhoFelicidade;
-        if (energia > 100f) energia = 100f;
-        if (felicidade > 100f) felicidade = 100f;
-
-        AtualizarBarrinhas();
-        SalvarStatus();
-    }
-
-    private void AtualizarBarrinhas()
-    {
-        if (barraEnergia != null) barraEnergia.value = energia;
-        if (barraFelicidade != null) barraFelicidade.value = felicidade;
-    }
-
-    private void CarregarStatusSalvos()
-    {
-        energia = PlayerPrefs.GetFloat("TamagotchiEnergia", 100f);
-        felicidade = PlayerPrefs.GetFloat("TamagotchiFelicidade", 100f);
-    }
-
-    private void SalvarStatus()
-    {
-        PlayerPrefs.SetFloat("TamagotchiEnergia", energia);
-        PlayerPrefs.SetFloat("TamagotchiFelicidade", felicidade);
-
-        PlayerPrefs.SetString("UltimaVezJogado", DateTime.Now.ToString());
-
+        PlayerPrefs.SetString("UltimoAcesso", DateTime.Now.ToString());
         PlayerPrefs.Save();
     }
 
-    //Testes para adicionar e diminuir energia e felicidade
-    public void TesteAdicionarEnergia()
+    private void CarregarStatus()
     {
-        CuidarDoPersonagem(10f, 0f);
+        energiaAtual = PlayerPrefs.GetFloat("EnergiaAvatar", energiaMaxima);
     }
 
-    public void TesteAdicionarFelicidade()
+    private void AtualizarUI()
     {
-        CuidarDoPersonagem(0f, 10f);
-    }
-
-    public void TesteDiminuirEnergia()
-    {
-        CuidarDoPersonagem(-10f, 0f);
-    }
-
-    public void TesteDiminuirFelicidade()
-    {
-        CuidarDoPersonagem(0f, -10f);
+        if (sliderEnergia != null)
+        {
+            sliderEnergia.value = energiaAtual / energiaMaxima;
+        }
     }
 
     private void OnApplicationQuit()
     {
         SalvarStatus();
     }
+
+    // //Testes para adicionar e diminuir energia e felicidade
+    // public void TesteAdicionarEnergia()
+    // {
+    //     CuidarDoPersonagem(10f, 0f);
+    // }
+
+    // public void TesteAdicionarFelicidade()
+    // {
+    //     CuidarDoPersonagem(0f, 10f);
+    // }
+
+    // public void TesteDiminuirEnergia()
+    // {
+    //     CuidarDoPersonagem(-10f, 0f);
+    // }
+
+    // public void TesteDiminuirFelicidade()
+    // {
+    //     CuidarDoPersonagem(0f, -10f);
+    // }
 
     private void OnApplicationPause(bool isPaused)
     {
