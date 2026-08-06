@@ -20,6 +20,10 @@ public class EntidadeRunner : MonoBehaviour
             rb.gravityScale = stats.baseGravity * stats.fallGravityMultiplier;
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, Mathf.Max(rb.linearVelocity.y, stats.maxFallSpeed));
         }
+        else if (rb.linearVelocity.y > 0 && !isJumpButtonHeld)
+        {
+            rb.gravityScale = stats.baseGravity * stats.shortJumpGravityMultiplier;
+        }
         else
         {
             rb.gravityScale = stats.baseGravity;

@@ -47,11 +47,13 @@ public class PlayerRunner : EntidadeRunner
     {
         _input.Gameplay.Enable();
         _input.Gameplay.Tap.performed += OnTap;
+        _input.Gameplay.Tap.canceled += OnTapCanceled;
     }
 
     private void OnDisable()
     {
         _input.Gameplay.Tap.performed -= OnTap;
+        _input.Gameplay.Tap.canceled -= OnTapCanceled;
         _input.Gameplay.Disable();
     }
 
@@ -59,20 +61,36 @@ public class PlayerRunner : EntidadeRunner
     {
         if (_isGrounded && rb.linearVelocity.y <= 0.1f)
         {
+            isJumpButtonHeld = true;
             IniciarPulo();
 
-            int offsetCesta = 0;
-            if (_instaciaCestaFollower != null)
-            {
-                _instaciaCestaFollower.PularComAtraso(atrasoPorSeguidor);
-                offsetCesta = 1;
-            }
+            ComandarPuloSeguidores(true);
+        }
+    }
 
-            for (int i = 0; i < filaSeguidores.Count; i++)
-            {
-                float tempoDeAtraso = (i + 1 + offsetCesta) * atrasoPorSeguidor;
-                filaSeguidores[i].PularComAtraso(tempoDeAtraso);
-            }
+    private void OnTapCanceled(InputAction.CallbackContext ctx)
+    {
+        isJumpButtonHeld = false;
+        ComandarPuloSeguidores(false);
+    }
+
+    private void ComandarPuloSeguidores(bool isPress)
+    {
+        int offsetCesta = 0;
+        if (_instaciaCestaFollower != null)
+        {
+            if (isPress) _instaciaCestaFollower.PularComAtraso(atrasoPorSeguidor);
+            else _instaciaCestaFollower.PararPuloComAtraso(atrasoPorSeguidor);
+
+            offsetCesta = 1;
+        }
+
+        for (int i = 0; i < filaSeguidores.Count; i++)
+        {
+            float tempoDeAtraso = (i + 1 + offsetCesta) * atrasoPorSeguidor;
+
+            if (isPress) filaSeguidores[i].PularComAtraso(tempoDeAtraso);
+            else filaSeguidores[i].PararPuloComAtraso(tempoDeAtraso);
         }
     }
 

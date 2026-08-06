@@ -22,9 +22,21 @@ public class Follower : EntidadeRunner
         StartCoroutine(RotinaPulo(tempoEspera));
     }
 
+    public void PararPuloComAtraso(float tempoEspera)
+    {
+        StartCoroutine(RotinaPararPulo(tempoEspera));
+    }
+
     private IEnumerator RotinaPulo(float delay)
     {
         yield return new WaitForSeconds(delay);
+        isJumpButtonHeld = true;
         IniciarPulo();
+    }
+
+    private IEnumerator RotinaPararPulo(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        isJumpButtonHeld = false;
     }
 }

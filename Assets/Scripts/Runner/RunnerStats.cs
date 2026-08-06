@@ -9,5 +9,6 @@ public class RunnerStats : ScriptableObject
     [Header("Gravidade")]
     public float baseGravity = 1f;
     public float fallGravityMultiplier = 2f;
+    public float shortJumpGravityMultiplier = 3.5f;
     public float maxFallSpeed = -20f;
 }
