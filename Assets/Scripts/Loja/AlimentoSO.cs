@@ -16,6 +16,7 @@ public class AlimentoSO : ScriptableObject
     public string nomeAlimento;
     public Sprite iconeVisual;
     public int precoMoedas;
+    public float energiaRestaurada = 15f;
 
     [Header("Detalhes Nutricionais (Para o Popup)")]
     public CategoriaAlimento categoria;
