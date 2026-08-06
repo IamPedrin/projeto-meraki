@@ -5,7 +5,8 @@ public class ItemArrastavel : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
 {
     public AlimentoSO alimentoData;
 
-    [HideInInspector] public Transform paiOriginal;
+    [HideInInspector] public Transform despensaTransform;
+
     private CanvasGroup _canvasGroup;
     private RectTransform _rectTransform;
     private Canvas _canvasPrincipal;
@@ -13,20 +14,23 @@ public class ItemArrastavel : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
     private void Awake()
     {
         _rectTransform = GetComponent<RectTransform>();
-
         _canvasGroup = GetComponent<CanvasGroup>();
         if (_canvasGroup == null) _canvasGroup = gameObject.AddComponent<CanvasGroup>();
-
         _canvasPrincipal = GetComponentInParent<Canvas>();
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        paiOriginal = transform.parent;
+        Transform paiAntigo = transform.parent;
+
+        SlotPrato slot = paiAntigo.GetComponent<SlotPrato>();
+        if (slot != null)
+        {
+            slot.alimentoNesteSlot = null;
+        }
 
         transform.SetParent(_canvasPrincipal.transform);
         transform.SetAsLastSibling();
-
         _canvasGroup.blocksRaycasts = false;
     }
 
@@ -41,7 +45,7 @@ public class ItemArrastavel : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
 
         if (transform.parent == _canvasPrincipal.transform)
         {
-            transform.SetParent(paiOriginal);
+            transform.SetParent(despensaTransform);
         }
     }
 }

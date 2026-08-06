@@ -63,8 +63,12 @@ public class CozinhaManager : MonoBehaviour
                         {
                             GameObject novoItem = Instantiate(prefabItemArrastavel, painelDespensa);
 
+                            ItemArrastavel scriptArrastavel = novoItem.GetComponent<ItemArrastavel>();
+
                             novoItem.GetComponent<Image>().sprite = alimentoDado.iconeVisual;
-                            novoItem.GetComponent<ItemArrastavel>().alimentoData = alimentoDado;
+                            scriptArrastavel.alimentoData = alimentoDado;
+
+                            scriptArrastavel.despensaTransform = painelDespensa;
                         }
                     }
                 }
