@@ -81,10 +81,8 @@ public class PlayerRunner : EntidadeRunner
         if (colisao.CompareTag("AlimentoBom"))
         {
             GameManager.Instance.AdicionarPontoHUD();
-
             _alimentosVisuaisAtivos++;
             AtualizarFormacaoDaTela();
-
             if (AudioManager.Instance != null) AudioManager.Instance.PlaySFX("coletar");
             Destroy(colisao.gameObject);
         }
@@ -102,7 +100,21 @@ public class PlayerRunner : EntidadeRunner
         }
         else if (colisao.CompareTag("LinhaChegada"))
         {
-            _corridaFinalizada = true; // Aciona o nosso freio de mão!
+            _corridaFinalizada = true;
+            if (_instaciaCestaFollower != null)
+            {
+                _instaciaCestaFollower.GetComponent<Rigidbody2D>().linearVelocity = Vector2.zero;
+                _instaciaCestaFollower.enabled = false;
+            }
+            foreach (Follower seguidor in filaSeguidores)
+            {
+                if (seguidor != null)
+                {
+                    seguidor.GetComponent<Rigidbody2D>().linearVelocity = Vector2.zero;
+                    seguidor.enabled = false;
+                }
+            }
+
             GameManager.Instance.IniciarSequenciaDeVitoria();
         }
     }
@@ -142,6 +154,13 @@ public class PlayerRunner : EntidadeRunner
 
             Vector3 posSpawn = new Vector3(transform.position.x - (indiceVisual * distanciaEntreSeguidores), transform.position.y + 0.5f, transform.position.z);
             Follower novoBoneco = Instantiate(prefabFollowerPadrao, posSpawn, Quaternion.identity);
+
+            SpriteRenderer renderizador = novoBoneco.GetComponent<SpriteRenderer>();
+            if (renderizador != null && GameManager.Instance.alimentoObjetivo != null)
+            {
+                renderizador.sprite = GameManager.Instance.alimentoObjetivo.iconeVisual;
+            }
+
             novoBoneco.player = this;
             filaSeguidores.Add(novoBoneco);
         }

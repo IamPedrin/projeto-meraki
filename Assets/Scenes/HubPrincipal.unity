@@ -424,7 +424,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 8.5000305, y: 80.00001}
-  m_SizeDelta: {x: 650, y: 0}
+  m_SizeDelta: {x: 650, y: 20}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &61028883
 MonoBehaviour:
@@ -1381,7 +1381,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0.00049972534}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 40, y: 50}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &237670078
@@ -1430,8 +1430,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -1460,7 +1460,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.ContentSizeFitter
-  m_HorizontalFit: 2
+  m_HorizontalFit: 1
   m_VerticalFit: 0
 --- !u!1 &239879361
 GameObject:
@@ -2649,7 +2649,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 0.5
 --- !u!222 &450202971
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3179,9 +3179,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 726e7049d6a715e4092232fc6ef6de48, type: 2}
   - {fileID: 11400000, guid: e2de23d3596f69948a6eb9eca1a7223b, type: 2}
   - {fileID: 11400000, guid: dfe72350237b9914d95908dc3115c98c, type: 2}
-  - {fileID: 11400000, guid: 7f176e374619bee49ad3e79cdd099495, type: 2}
-  - {fileID: 11400000, guid: 7f176e374619bee49ad3e79cdd099495, type: 2}
-  - {fileID: 11400000, guid: 7f176e374619bee49ad3e79cdd099495, type: 2}
   - {fileID: 11400000, guid: 7f176e374619bee49ad3e79cdd099495, type: 2}
   painelLoja: {fileID: 1447667200}
   conteinerDaPrateleira: {fileID: 61028882}

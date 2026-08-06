@@ -2211,6 +2211,66 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1122627441
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1122627442}
+  - component: {fileID: 1122627443}
+  m_Layer: 5
+  m_Name: LocalFrutas
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1122627442
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1122627441}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1784920204}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 4, y: 235.23474}
+  m_SizeDelta: {x: 692, y: 430.4695}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1122627443
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1122627441}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a8695521f0d02e499659fee002a26c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.GridLayoutGroup
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 6
+  m_StartCorner: 2
+  m_StartAxis: 0
+  m_CellSize: {x: 40, y: 40}
+  m_Spacing: {x: 0, y: 0}
+  m_Constraint: 0
+  m_ConstraintCount: 2
 --- !u!1 &1124299410
 GameObject:
   m_ObjectHideFlags: 0
@@ -3375,7 +3435,7 @@ MonoBehaviour:
   - {fileID: 7890938607100772127, guid: 2d17c260d8e874a439e67ebf7ff9f5e2, type: 3}
   startChunk: {fileID: 946415816}
   finishLineChunk: {fileID: 7890938607100772127, guid: 4098f47aa332bff4ab4053597a85ec0d, type: 3}
-  distanciaParaVencer: 1200
+  distanciaParaVencer: 100
   spawnDistanceAhead: 20
   despawnDistanceBehind: 15
   initialPoolSizePerPrefab: 3
@@ -3734,12 +3794,14 @@ MonoBehaviour:
     alimentoPrefab: {fileID: 798812574802300494, guid: ae12e764e2b6dcf45a26e1362d62431f, type: 3}
   alimentoObjetivo: {fileID: 11400000, guid: 848bb62d2b11a9f48bdcafa23e11675f, type: 2}
   prefabAlimentoObjetivo: {fileID: 0}
-  painelBalanca: {fileID: 1784920203}
-  textoBalancaContagem: {fileID: 1420282993}
   gameOverPanel: {fileID: 836215012}
   textoPontuacaoFinal: {fileID: 1277922809}
   textoMoedasGanhas: {fileID: 2081143643}
   valorPorAlimento: 5
+  painelBalanca: {fileID: 1784920203}
+  localDasFrutasNaBalanca: {fileID: 1122627442}
+  prefabIconeFruta: {fileID: 4800589260502981153, guid: 9deb2dff6abf4554ba6df0d204d446b4, type: 3}
+  textoBalancaContagem: {fileID: 1420282993}
 --- !u!1 &1784920203
 GameObject:
   m_ObjectHideFlags: 0
@@ -3772,6 +3834,7 @@ RectTransform:
   m_Children:
   - {fileID: 790554999}
   - {fileID: 1420282992}
+  - {fileID: 1122627442}
   m_Father: {fileID: 1354697450}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}

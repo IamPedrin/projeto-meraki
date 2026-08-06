@@ -27,9 +27,6 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public AlimentoSO alimentoObjetivo;
     [HideInInspector] public GameObject prefabAlimentoObjetivo;
 
-    [Header("Cinemática da Balança")]
-    public GameObject painelBalanca;
-    public TextMeshProUGUI textoBalancaContagem;
     [Header("Game Over UI")]
     public GameObject gameOverPanel;
     public TextMeshProUGUI textoPontuacaoFinal;
@@ -37,6 +34,12 @@ public class GameManager : MonoBehaviour
 
     [Header("Economia")]
     public int valorPorAlimento = 5;
+
+    [Header("UI da Balança")]
+    public GameObject painelBalanca;
+    public Transform localDasFrutasNaBalanca;
+    public GameObject prefabIconeFruta;
+    public TextMeshProUGUI textoBalancaContagem;
 
     private void Awake()
     {
@@ -65,7 +68,7 @@ public class GameManager : MonoBehaviour
         if (_totalHistorico > 0)
         {
             _totalHistorico--;
-            Debug.Log("Eca! Bateu no ultraprocessado. Perdeu 1 alimento.");
+            Debug.Log("Bateu no ultraprocessado. Perdeu 1 alimento.");
         }
         AtualizarTextoHUD();
     }
@@ -80,44 +83,60 @@ public class GameManager : MonoBehaviour
         if (textoHUDMoedas != null) textoHUDMoedas.text = "Moedas: " + BancoMoedas.ObterSaldo();
     }
 
-    public void IniciarSequenciaDeVitoria()
+public void IniciarSequenciaDeVitoria()
     {
         StartCoroutine(RotinaBalanca());
     }
 
     private IEnumerator RotinaBalanca()
     {
-        // 1. Ativa a tela da balança
         if (painelBalanca != null) painelBalanca.SetActive(true);
 
-        // 2. Faz a contagem de 1 a 1 (O Efeito "Juice")
+        if (localDasFrutasNaBalanca != null)
+        {
+            foreach (Transform child in localDasFrutasNaBalanca)
+            {
+                Destroy(child.gameObject);
+            }
+        }
+
         for (int i = 1; i <= _totalHistorico; i++)
         {
-            // Aqui futuramente você pode colocar o código para instanciar/tocar o som da frutinha caindo
             if (textoBalancaContagem != null) textoBalancaContagem.text = i.ToString();
 
-            // Espera 0.4 segundos antes de cair a próxima fruta
+            if (prefabIconeFruta != null && localDasFrutasNaBalanca != null && alimentoObjetivo != null)
+            {
+                GameObject icone = Instantiate(prefabIconeFruta, localDasFrutasNaBalanca);
+                icone.GetComponent<Image>().sprite = alimentoObjetivo.iconeVisual;
+            }
+
             yield return new WaitForSeconds(0.4f);
         }
 
-        // 3. Dá 2 segundos para a criança ver o resultado final na balança
         yield return new WaitForSeconds(2f);
 
-        // 4. Desliga a balança e chama a tela final de pontuação
         if (painelBalanca != null) painelBalanca.SetActive(false);
-        MostrarGameOver();
+        
+        MostrarGameOver(true);
     }
 
-
-    public void MostrarGameOver()
+    public void MostrarGameOver(bool jogadorVenceu)
     {
         Time.timeScale = 0f;
         gameOverPanel.SetActive(true);
-        textoPontuacaoFinal.text = "Você coletou: " + _totalHistorico + " alimentos!";
-
-        if (alimentoObjetivo != null && _totalHistorico > 0)
+        
+        if (jogadorVenceu == true)
         {
-            InventarioManager.AdicionarAlimento(alimentoObjetivo.idUnico, _totalHistorico);
+            textoPontuacaoFinal.text = "Você coletou: " + _totalHistorico + " alimentos!\nIrão direto para o despensa da sua cozinha!";
+            
+            if (alimentoObjetivo != null && _totalHistorico > 0)
+            {
+                InventarioManager.AdicionarAlimento(alimentoObjetivo.idUnico, _totalHistorico);
+            }
+        }
+        else
+        {
+            textoPontuacaoFinal.text = "Ops, você caiu! Mas conseguiu: " + _totalHistorico + " alimentos.";
         }
 
         int lucroDaPartida = _totalHistorico * valorPorAlimento;
@@ -128,7 +147,7 @@ public class GameManager : MonoBehaviour
 
         if (textoMoedasGanhas != null)
         {
-            textoMoedasGanhas.text = "Bônus final: +" + lucroDaPartida + " moedas!";
+            textoMoedasGanhas.text = "\nBônus final: +" + lucroDaPartida + " moedas!";
         }
     }
 

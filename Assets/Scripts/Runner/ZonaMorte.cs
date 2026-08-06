@@ -6,7 +6,7 @@ public class ZonaMorte : MonoBehaviour
     {
         if (colisao.CompareTag("Player"))
         {
-            GameManager.Instance.MostrarGameOver();
+            GameManager.Instance.MostrarGameOver(false);
         }
 
         else if (colisao.CompareTag("Follower"))
