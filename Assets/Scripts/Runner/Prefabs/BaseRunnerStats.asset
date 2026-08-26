@@ -16,4 +16,5 @@ MonoBehaviour:
   jumpForce: 20
   baseGravity: 3
   fallGravityMultiplier: 1.1
+  shortJumpGravityMultiplier: 3
   maxFallSpeed: -20

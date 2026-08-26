@@ -36,6 +36,15 @@ public class PetManager : MonoBehaviour
         SalvarStatus();
     }
 
+    public void TirarEnergia(float quantidade)
+    {
+        energiaAtual -= quantidade;
+        energiaAtual = Mathf.Clamp(energiaAtual, 0, energiaMaxima);
+
+        AtualizarUI();
+        SalvarStatus();
+    }
+
     private void DrenarEnergia()
     {
         energiaAtual -= 2f;

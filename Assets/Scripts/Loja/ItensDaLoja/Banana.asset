@@ -15,6 +15,7 @@ MonoBehaviour:
   idUnico: banana
   nomeAlimento: Banana
   iconeVisual: {fileID: 764880012322990482, guid: 903096fa89af09341ad120860c97dcf8, type: 3}
-  precoMoedas: 100
+  precoMoedas: 20
+  energiaRestaurada: 15
   categoria: 0
   descricao: Uma banana com muito potassio

@@ -15,6 +15,7 @@ MonoBehaviour:
   idUnico: refri
   nomeAlimento: Refrigerante
   iconeVisual: {fileID: 2332910215240981773, guid: ec3221069d5794845959e55f361808c7, type: 3}
-  precoMoedas: 150
+  precoMoedas: 100
+  energiaRestaurada: 15
   categoria: 3
-  descricao: Um refri geladinhho
+  descricao: Um refri ultraprocessado

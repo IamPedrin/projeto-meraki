@@ -15,6 +15,7 @@ MonoBehaviour:
   idUnico: maca
   nomeAlimento: "Ma\xE7\xE3"
   iconeVisual: {fileID: 7161268180630708012, guid: 180196fe966b01d4092ed3c37542e410, type: 3}
-  precoMoedas: 29
+  precoMoedas: 5
+  energiaRestaurada: 15
   categoria: 0
-  descricao: "Uma ma\xE7a com muito potassio"
+  descricao: "Uma ma\xE7a com muitos nutrientes"

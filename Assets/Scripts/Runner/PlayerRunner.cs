@@ -149,6 +149,7 @@ public class PlayerRunner : EntidadeRunner
                 Vector3 posSpawn = new Vector3(transform.position.x - distanciaEntreSeguidores, transform.position.y, transform.position.z);
                 _instaciaCestaFollower = Instantiate(prefabCestaFollower, posSpawn, Quaternion.identity);
                 _instaciaCestaFollower.player = this;
+                _instaciaCestaFollower.GetComponent<Rigidbody2D>().linearVelocity = rb.linearVelocity;
             }
             _instaciaCestaFollower.AtualizarNumero(itensNaCesta);
         }
@@ -170,8 +171,36 @@ public class PlayerRunner : EntidadeRunner
             int offsetCesta = (_instaciaCestaFollower != null) ? 1 : 0;
             int indiceVisual = filaSeguidores.Count + 1 + offsetCesta;
 
-            Vector3 posSpawn = new Vector3(transform.position.x - (indiceVisual * distanciaEntreSeguidores), transform.position.y + 0.5f, transform.position.z);
+            Transform objFrente;
+            Vector2 velocidadeDaFrente;
+            float compensacaoY;
+
+            if (filaSeguidores.Count > 0)
+            {
+                Follower daFrente = filaSeguidores[filaSeguidores.Count - 1];
+                objFrente = daFrente.transform;
+                velocidadeDaFrente = daFrente.GetComponent<Rigidbody2D>().linearVelocity;
+                compensacaoY = 0.7f;
+            }
+            else if (_instaciaCestaFollower != null)
+            {
+                objFrente = _instaciaCestaFollower.transform;
+                velocidadeDaFrente = _instaciaCestaFollower.GetComponent<Rigidbody2D>().linearVelocity;
+                compensacaoY = 0.7f;
+            }
+            else
+            {
+                objFrente = this.transform;
+                velocidadeDaFrente = this.rb.linearVelocity;
+                compensacaoY = 1f;
+            }
+
+            float xCorreto = transform.position.x - (indiceVisual * distanciaEntreSeguidores);
+            Vector3 posSpawn = new Vector3(xCorreto, objFrente.position.y + compensacaoY, transform.position.z);
+
             Follower novoBoneco = Instantiate(prefabFollowerPadrao, posSpawn, Quaternion.identity);
+
+            novoBoneco.GetComponent<Rigidbody2D>().linearVelocity = velocidadeDaFrente;
 
             SpriteRenderer renderizador = novoBoneco.GetComponent<SpriteRenderer>();
             if (renderizador != null && GameManager.Instance.alimentoObjetivo != null)

@@ -3435,7 +3435,7 @@ MonoBehaviour:
   - {fileID: 7890938607100772127, guid: 2d17c260d8e874a439e67ebf7ff9f5e2, type: 3}
   startChunk: {fileID: 946415816}
   finishLineChunk: {fileID: 7890938607100772127, guid: 4098f47aa332bff4ab4053597a85ec0d, type: 3}
-  distanciaParaVencer: 100
+  distanciaParaVencer: 150
   spawnDistanceAhead: 20
   despawnDistanceBehind: 15
   initialPoolSizePerPrefab: 3
@@ -4524,6 +4524,10 @@ PrefabInstance:
     - target: {fileID: 3630355161457289671, guid: cb2dd099ee766854c9cc12fb370aad2c, type: 3}
       propertyPath: baseGravity
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3630355161457289671, guid: cb2dd099ee766854c9cc12fb370aad2c, type: 3}
+      propertyPath: atrasoPorSeguidor
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 3630355161457289671, guid: cb2dd099ee766854c9cc12fb370aad2c, type: 3}
       propertyPath: fallGravityMultiplier

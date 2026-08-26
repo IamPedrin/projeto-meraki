@@ -16,5 +16,6 @@ MonoBehaviour:
   nomeAlimento: Queijo
   iconeVisual: {fileID: 828026598852002492, guid: 9a74c6340a68ec2459275db12cb92917, type: 3}
   precoMoedas: 250
+  energiaRestaurada: 15
   categoria: 1
-  descricao: "queijo minas \xE9 bom demais"
+  descricao: Queijjo contem proteina

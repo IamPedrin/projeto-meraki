@@ -9,6 +9,8 @@ public class HubManager : MonoBehaviour
     void Start()
     {
         AudioManager.Instance.PlayMusic("musica");
+        BancoMoedas.AdicionarMoedas(1000);
+        PetManager.Instancia.TirarEnergia(20f);
     }
 
     public void OpenMinigames()
