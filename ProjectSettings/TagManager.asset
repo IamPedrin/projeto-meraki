@@ -45,6 +45,15 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Back
+    uniqueID: 725759049
+    locked: 0
+  - name: Front
+    uniqueID: 932460607
+    locked: 0
+  - name: Pet
+    uniqueID: 2819644263
+    locked: 0
   m_RenderingLayers:
   - Default
   m_MigratedRenderPipelines: []
