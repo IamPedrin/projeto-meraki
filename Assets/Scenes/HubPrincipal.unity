@@ -745,6 +745,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e2de23d3596f69948a6eb9eca1a7223b, type: 2}
   - {fileID: 11400000, guid: dfe72350237b9914d95908dc3115c98c, type: 2}
   - {fileID: 11400000, guid: 7f176e374619bee49ad3e79cdd099495, type: 2}
+  bocaDoPet: {fileID: 1680980437}
+  animatorPet: {fileID: 1546189206}
 --- !u!1 &129105806
 GameObject:
   m_ObjectHideFlags: 0
@@ -10754,7 +10756,8 @@ Transform:
   m_LocalPosition: {x: -2.14, y: -1.25, z: 0}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1680980437}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &1546189206
@@ -11410,6 +11413,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1643841307}
   m_CullTransparentMesh: 1
+--- !u!1 &1680980436
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1680980437}
+  m_Layer: 0
+  m_Name: Boca
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1680980437
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1680980436}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1546189205}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1684267496
 GameObject:
   m_ObjectHideFlags: 0

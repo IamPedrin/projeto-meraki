@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class CozinhaManager : MonoBehaviour
 {
@@ -15,6 +16,10 @@ public class CozinhaManager : MonoBehaviour
     public Transform painelDespensa;
     public GameObject prefabItemArrastavel;
     public List<AlimentoSO> bancoDeDadosAlimentos;
+
+    [Header("Animação do PET")]
+    public Transform bocaDoPet;
+    public Animator animatorPet;
 
     private void Start()
     {
@@ -80,7 +85,6 @@ public class CozinhaManager : MonoBehaviour
     {
         float energiaTotal = 0f;
         List<AlimentoSO> alimentosParaConsumir = new List<AlimentoSO>();
-
         HashSet<string> tiposDiferentes = new HashSet<string>();
 
         foreach (SlotPrato slot in slotsDoPrato)
@@ -102,7 +106,6 @@ public class CozinhaManager : MonoBehaviour
         if (tiposDiferentes.Count >= 3)
         {
             energiaTotal += bonusDeVariedade;
-            Debug.Log("Prato Colorido! +" + bonusDeVariedade + " de Bônus!");
         }
 
         foreach (AlimentoSO comida in alimentosParaConsumir)
@@ -110,16 +113,53 @@ public class CozinhaManager : MonoBehaviour
             InventarioManager.RemoverAlimento(comida.idUnico, 1);
         }
 
-        PetManager.Instancia.DarEnergia(energiaTotal);
-        Debug.Log("Refeição servida! Energia recebida: " + energiaTotal);
+        PetRoomMovement petWander = null;
+        if (animatorPet != null)
+        {
+            petWander = animatorPet.GetComponent<PetRoomMovement>();
+            if (petWander != null) petWander.PausarPasseio();
+        }
 
-        if (AudioManager.Instance != null) AudioManager.Instance.PlaySFX("nhac");
+        float tempoEspera = 0.8f;
+        float tempoVoo = 1.2f;
+        bool acaoRealizada = false;
 
         foreach (SlotPrato slot in slotsDoPrato)
         {
-            slot.EsvaziarSlot();
+            if (slot.transform.childCount > 0)
+            {
+                Transform iconeComida = slot.transform.GetChild(0);
+                iconeComida.SetParent(painelCozinha.transform.parent);
+
+                if (bocaDoPet != null && Camera.main != null)
+                {
+                    Vector3 posicaoBocaNaTela = Camera.main.WorldToScreenPoint(bocaDoPet.position);
+                    iconeComida.DOMove(posicaoBocaNaTela, tempoVoo).SetDelay(tempoEspera).SetEase(Ease.InOutSine);
+                }
+
+                iconeComida.DOScale(Vector3.zero, tempoVoo).SetDelay(tempoEspera).SetEase(Ease.InOutSine).OnComplete(() =>
+                {
+
+                    if (!acaoRealizada)
+                    {
+                        acaoRealizada = true;
+
+                        if (animatorPet != null) animatorPet.SetTrigger("isEating");
+                        if (AudioManager.Instance != null) AudioManager.Instance.PlaySFX("nhac");
+
+                        PetManager.Instancia.DarEnergia(energiaTotal);
+
+                        if (petWander != null) petWander.RetomarPasseio();
+                    }
+
+                    Destroy(iconeComida.gameObject);
+                });
+            }
+
+            slot.alimentoNesteSlot = null;
         }
 
+        FecharCozinha();
         AtualizarDespensa();
     }
 }

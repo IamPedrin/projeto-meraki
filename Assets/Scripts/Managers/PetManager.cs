@@ -1,7 +1,7 @@
 using UnityEngine;
 using System;
 using UnityEngine.UI;
-
+using DG.Tweening;
 public class PetManager : MonoBehaviour
 {
     public static PetManager Instancia;
@@ -85,7 +85,7 @@ public class PetManager : MonoBehaviour
     {
         if (sliderEnergia != null)
         {
-            sliderEnergia.value = energiaAtual / energiaMaxima;
+            sliderEnergia.DOValue(energiaAtual / energiaMaxima, 1f).SetEase(Ease.OutCubic);
         }
     }
 

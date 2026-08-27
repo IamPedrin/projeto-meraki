@@ -100,4 +100,18 @@ public class PetRoomMovement : MonoBehaviour
             _estaMovendo = false;
         }
     }
+
+    public void PausarPasseio()
+    {
+        _estaMovendo = false;
+        _animator.SetBool("isMoving", false);
+
+        StopAllCoroutines();
+    }
+
+    public void RetomarPasseio()
+    {
+        StopAllCoroutines(); 
+        StartCoroutine(RotinaWander()); 
+    }
 }
