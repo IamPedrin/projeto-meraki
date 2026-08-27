@@ -1,19 +1,19 @@
 fileFormatVersion: 2
-guid: 551c6b3dbfe14eb489f7a65aee7ad5da
+guid: 79a2727304e11ee43973455854f6d9db
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4281637774074219296
-    second: jump_0
+      213: -3527056022417232336
+    second: move_0
   - first:
-      213: -7862396843884538191
-    second: jump_1
+      213: 1559915471669483522
+    second: move_1
   - first:
-      213: 8276514422256456541
-    second: jump_2
+      213: -2447649416737202741
+    second: move_2
   - first:
-      213: -3697937850672776721
-    second: jump_3
+      213: -6256732298934330293
+    second: move_3
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -60,7 +60,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 32
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -84,7 +84,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -122,13 +122,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: jump_0
+      name: move_0
       rect:
         serializedVersion: 2
-        x: 3
-        y: 2
-        width: 17
-        height: 19
+        x: 4
+        y: 3
+        width: 15
+        height: 18
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -137,19 +137,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 02b8694dede6b6b30800000000000000
-      internalID: 4281637774074219296
+      spriteID: 03e2be81c316d0fc0800000000000000
+      internalID: -3527056022417232336
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: jump_1
+      name: move_1
       rect:
         serializedVersion: 2
         x: 27
-        y: 2
-        width: 17
+        y: 3
+        width: 15
         height: 18
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -159,19 +159,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 1b61c1d2ab723e290800000000000000
-      internalID: -7862396843884538191
+      spriteID: 208de705bdee5a510800000000000000
+      internalID: 1559915471669483522
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: jump_2
+      name: move_2
       rect:
         serializedVersion: 2
-        x: 51
-        y: 6
-        width: 17
+        x: 52
+        y: 3
+        width: 15
         height: 18
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -181,19 +181,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d535ef424061cd270800000000000000
-      internalID: 8276514422256456541
+      spriteID: bcddfacd2d3380ed0800000000000000
+      internalID: -2447649416737202741
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: jump_3
+      name: move_3
       rect:
         serializedVersion: 2
-        x: 75
-        y: 2
-        width: 17
+        x: 77
+        y: 3
+        width: 15
         height: 18
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -203,8 +203,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: fe97d290e194eacc0800000000000000
-      internalID: -3697937850672776721
+      spriteID: b4c5e4baf1f9b29a0800000000000000
+      internalID: -6256732298934330293
       vertices: []
       indices: 
       edges: []
@@ -223,10 +223,10 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      jump_0: 4281637774074219296
-      jump_1: -7862396843884538191
-      jump_2: 8276514422256456541
-      jump_3: -3697937850672776721
+      move_0: -3527056022417232336
+      move_1: 1559915471669483522
+      move_2: -2447649416737202741
+      move_3: -6256732298934330293
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

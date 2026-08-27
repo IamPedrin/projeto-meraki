@@ -1,19 +1,19 @@
 fileFormatVersion: 2
-guid: 79a2727304e11ee43973455854f6d9db
+guid: fff003a5be6792449a1efad7a3aba335
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -3527056022417232336
-    second: move_0
+      213: -2024334456871629720
+    second: hatch_0
   - first:
-      213: 1559915471669483522
-    second: move_1
+      213: 5599988039434491785
+    second: hatch_1
   - first:
-      213: -2447649416737202741
-    second: move_2
+      213: 1462552665366891476
+    second: hatch_2
   - first:
-      213: -6256732298934330293
-    second: move_3
+      213: -1417175158222480148
+    second: hatch_3
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,7 +46,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -84,7 +84,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -122,7 +122,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: move_0
+      name: hatch_0
       rect:
         serializedVersion: 2
         x: 4
@@ -137,20 +137,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 03e2be81c316d0fc0800000000000000
-      internalID: -3527056022417232336
+      spriteID: 86c459f698e18e3e0800000000000000
+      internalID: -2024334456871629720
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: move_1
+      name: hatch_1
       rect:
         serializedVersion: 2
-        x: 27
+        x: 28
         y: 3
         width: 15
-        height: 18
+        height: 20
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -159,20 +159,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 208de705bdee5a510800000000000000
-      internalID: 1559915471669483522
+      spriteID: 987ddeca37727bd40800000000000000
+      internalID: 5599988039434491785
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: move_2
+      name: hatch_2
       rect:
         serializedVersion: 2
         x: 52
         y: 3
         width: 15
-        height: 18
+        height: 21
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -181,20 +181,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: bcddfacd2d3380ed0800000000000000
-      internalID: -2447649416737202741
+      spriteID: 4db8e7476e70c4410800000000000000
+      internalID: 1462552665366891476
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: move_3
+      name: hatch_3
       rect:
         serializedVersion: 2
-        x: 77
+        x: 75
         y: 3
-        width: 15
-        height: 18
+        width: 17
+        height: 21
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -203,8 +203,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b4c5e4baf1f9b29a0800000000000000
-      internalID: -6256732298934330293
+      spriteID: cec14adb3be255ce0800000000000000
+      internalID: -1417175158222480148
       vertices: []
       indices: 
       edges: []
@@ -223,10 +223,10 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      move_0: -3527056022417232336
-      move_1: 1559915471669483522
-      move_2: -2447649416737202741
-      move_3: -6256732298934330293
+      hatch_0: -2024334456871629720
+      hatch_1: 5599988039434491785
+      hatch_2: 1462552665366891476
+      hatch_3: -1417175158222480148
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
