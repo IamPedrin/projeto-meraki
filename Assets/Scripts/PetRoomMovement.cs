@@ -111,7 +111,7 @@ public class PetRoomMovement : MonoBehaviour
 
     public void RetomarPasseio()
     {
-        StopAllCoroutines(); 
-        StartCoroutine(RotinaWander()); 
+        StopAllCoroutines();
+        StartCoroutine(RotinaWander());
     }
 }
