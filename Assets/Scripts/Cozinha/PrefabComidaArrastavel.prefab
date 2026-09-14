@@ -91,6 +91,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ItemArrastavel
   alimentoData: {fileID: 0}
   despensaTransform: {fileID: 0}
+  textoQuantidade: {fileID: 7966018035256112754}
 --- !u!1 &3465902015920854213
 GameObject:
   m_ObjectHideFlags: 0

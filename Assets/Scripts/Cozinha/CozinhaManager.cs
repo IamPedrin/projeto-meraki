@@ -21,6 +21,13 @@ public class CozinhaManager : MonoBehaviour
     public Transform bocaDoPet;
     public Animator animatorPet;
 
+    public static CozinhaManager Instancia;
+
+    private void Awake()
+    {
+        if (Instancia == null) Instancia = this;
+    }
+
     private void Start()
     {
         AtualizarDespensa();
@@ -49,6 +56,24 @@ public class CozinhaManager : MonoBehaviour
             Destroy(child.gameObject);
         }
 
+        Dictionary<string, int> itensNoPrato = new Dictionary<string, int>();
+        foreach (SlotPrato slot in slotsDoPrato)
+        {
+            if (slot.alimentoNesteSlot != null)
+            {
+                string id = slot.alimentoNesteSlot.idUnico;
+                if (itensNoPrato.ContainsKey(id)) itensNoPrato[id]++;
+                else itensNoPrato[id] = 1;
+            }
+        }
+
+        Dictionary<string, int> itensNoMouse = new Dictionary<string, int>();
+        foreach (string idTransito in ItemArrastavel.itensEmTransito)
+        {
+            if (itensNoMouse.ContainsKey(idTransito)) itensNoMouse[idTransito]++;
+            else itensNoMouse[idTransito] = 1;
+        }
+
         Dictionary<string, int> inventario = InventarioManager.ObterInventarioCompleto();
 
         if (inventario != null)
@@ -56,25 +81,26 @@ public class CozinhaManager : MonoBehaviour
             foreach (var item in inventario)
             {
                 string id = item.Key;
-                int quantidade = item.Value;
+                int quantidadeTotal = item.Value;
 
-                if (quantidade > 0)
+                int qtdPrato = itensNoPrato.ContainsKey(id) ? itensNoPrato[id] : 0;
+                int qtdMouse = itensNoMouse.ContainsKey(id) ? itensNoMouse[id] : 0;
+
+                int quantidadeDisponivel = quantidadeTotal - qtdPrato - qtdMouse;
+
+                if (quantidadeDisponivel > 0)
                 {
-                    AlimentoSO alimentoDado = bancoDeDadosAlimentos.Find(x => x.idUnico == id);
+                    GameObject novoItem = Instantiate(prefabItemArrastavel, painelDespensa);
+                    ItemArrastavel scriptArrastavel = novoItem.GetComponent<ItemArrastavel>();
 
+                    AlimentoSO alimentoDado = bancoDeDadosAlimentos.Find(x => x.idUnico == id);
                     if (alimentoDado != null)
                     {
-                        for (int i = 0; i < quantidade; i++)
-                        {
-                            GameObject novoItem = Instantiate(prefabItemArrastavel, painelDespensa);
+                        novoItem.GetComponent<Image>().sprite = alimentoDado.iconeVisual;
+                        scriptArrastavel.alimentoData = alimentoDado;
+                        scriptArrastavel.despensaTransform = painelDespensa;
 
-                            ItemArrastavel scriptArrastavel = novoItem.GetComponent<ItemArrastavel>();
-
-                            novoItem.GetComponent<Image>().sprite = alimentoDado.iconeVisual;
-                            scriptArrastavel.alimentoData = alimentoDado;
-
-                            scriptArrastavel.despensaTransform = painelDespensa;
-                        }
+                        scriptArrastavel.AtualizarQuantidade(quantidadeDisponivel);
                     }
                 }
             }
