@@ -51,9 +51,9 @@ public class PetRoomMovement : MonoBehaviour
             if (PetManager.Instancia != null && PetManager.Instancia.energiaAtual <= 0)
             {
                 _estaMovendo = false;
+
                 _animator.SetBool("isMoving", false);
                 _animator.SetBool("isSleeping", true);
-
 
                 yield return new WaitUntil(() => PetManager.Instancia.energiaAtual > 0);
 
@@ -62,6 +62,8 @@ public class PetRoomMovement : MonoBehaviour
 
             _estaMovendo = false;
             _animator.SetBool("isMoving", false);
+
+            _animator.SetBool("isSleeping", false);
 
             float tempoEspera = Random.Range(tempoEsperaMin, tempoEsperaMax);
             yield return new WaitForSeconds(tempoEspera);
@@ -77,6 +79,8 @@ public class PetRoomMovement : MonoBehaviour
                 _spriteRenderer.flipX = false;
 
             _estaMovendo = true;
+
+            _animator.SetBool("isSleeping", false);
             _animator.SetBool("isMoving", true);
 
             yield return new WaitUntil(() => !_estaMovendo);
@@ -111,6 +115,17 @@ public class PetRoomMovement : MonoBehaviour
 
     public void RetomarPasseio()
     {
+        StopAllCoroutines();
+        StartCoroutine(RotinaWander());
+    }
+
+    public void InterromperParaComer()
+    {
+        _estaMovendo = false;
+        _animator.SetBool("isMoving", false);
+
+        _animator.SetBool("isSleeping", false);
+
         StopAllCoroutines();
         StartCoroutine(RotinaWander());
     }
