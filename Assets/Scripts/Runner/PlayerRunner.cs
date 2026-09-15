@@ -24,16 +24,23 @@ public class PlayerRunner : EntidadeRunner
     private bool _corridaFinalizada = false;
     private GameInput _input;
     private bool _isGrounded;
+    private Animator _animator;
 
     protected override void Awake()
     {
         base.Awake();
         _input = new GameInput();
+        _animator = GetComponent<Animator>();
     }
 
     private void FixedUpdate()
     {
         _isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+
+        if (_animator != null)
+        {
+            _animator.SetBool("isGrounded", _isGrounded);
+        }
 
         if (_corridaFinalizada)
         {
