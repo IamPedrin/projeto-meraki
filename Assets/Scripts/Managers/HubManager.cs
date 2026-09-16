@@ -6,6 +6,7 @@ public class HubManager : MonoBehaviour
     [SerializeField] private string SceneRunner = "Runner";
     [SerializeField] private GameObject minigamesPanel;
     [SerializeField] private GameObject hubPanel;
+    [SerializeField] private GameObject configsPanel;
     void Start()
     {
         AudioManager.Instance.PlayMusic("musica");
@@ -35,5 +36,15 @@ public class HubManager : MonoBehaviour
     {
         Debug.Log("Quiting...");
         Application.Quit();
+    }
+
+    public void OpenConfigs()
+    {
+        configsPanel.SetActive(true);
+    }
+
+    public void CloseConfigs()
+    {
+        configsPanel.SetActive(false);
     }
 }
