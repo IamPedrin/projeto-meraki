@@ -7,6 +7,7 @@ public class HubManager : MonoBehaviour
     [SerializeField] private GameObject minigamesPanel;
     [SerializeField] private GameObject hubPanel;
     [SerializeField] private GameObject configsPanel;
+    [SerializeField] private GameObject creditsPanel;
     void Start()
     {
         AudioManager.Instance.PlayMusic("musica");
@@ -46,5 +47,15 @@ public class HubManager : MonoBehaviour
     public void CloseConfigs()
     {
         configsPanel.SetActive(false);
+    }
+
+    public void OpenCredits()
+    {
+        creditsPanel.SetActive(true);
+    }
+
+    public void CloseCredits()
+    {
+        creditsPanel.SetActive(false);
     }
 }
