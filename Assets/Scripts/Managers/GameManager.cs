@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI textoHUDTotal;
     public TextMeshProUGUI textoHUDMoedas;
     private int _totalHistorico = 0;
+    public GameObject hudDoJogo;
 
     [Header("Catálogo de Missões (Sorteio)")]
     public List<MissaoPossivel> listaDeAlimentosSaudaveis;
@@ -83,7 +84,7 @@ public class GameManager : MonoBehaviour
         if (textoHUDMoedas != null) textoHUDMoedas.text = "Moedas: " + BancoMoedas.ObterSaldo();
     }
 
-public void IniciarSequenciaDeVitoria()
+    public void IniciarSequenciaDeVitoria()
     {
         StartCoroutine(RotinaBalanca());
     }
@@ -116,19 +117,20 @@ public void IniciarSequenciaDeVitoria()
         yield return new WaitForSeconds(2f);
 
         if (painelBalanca != null) painelBalanca.SetActive(false);
-        
+
         MostrarGameOver(true);
     }
 
     public void MostrarGameOver(bool jogadorVenceu)
     {
+        if (hudDoJogo != null) hudDoJogo.SetActive(false);
         Time.timeScale = 0f;
         gameOverPanel.SetActive(true);
-        
+
         if (jogadorVenceu == true)
         {
             textoPontuacaoFinal.text = "Você coletou: " + _totalHistorico + " alimentos!\nIrão direto para o despensa da sua cozinha!";
-            
+
             if (alimentoObjetivo != null && _totalHistorico > 0)
             {
                 InventarioManager.AdicionarAlimento(alimentoObjetivo.idUnico, _totalHistorico);
@@ -154,6 +156,7 @@ public void IniciarSequenciaDeVitoria()
     public void ReiniciarJogo()
     {
         Time.timeScale = 1f;
+        
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
