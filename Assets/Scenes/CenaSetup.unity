@@ -1101,6 +1101,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SetupManager
   SceneHub: HubPrincipal
+  painelPrincipalSetup: {fileID: 0}
   campoNome: {fileID: 490364082}
   botaoConfirmar: {fileID: 1714632597}
   fundoAvatarMasculino: {fileID: 2055033733}
@@ -1566,14 +1567,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 969659275}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1872779546}
   - {fileID: 302330926}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1935247714}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1012313178
 GameObject:
@@ -1675,7 +1676,7 @@ RectTransform:
   - {fileID: 2055033731}
   - {fileID: 933257900}
   - {fileID: 1714632596}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1935247714}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -5983,6 +5984,39 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!1 &1935247713
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1935247714}
+  m_Layer: 0
+  m_Name: SetupPrincipal
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1935247714
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1935247713}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1012313182}
+  - {fileID: 969659277}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2055033730
 GameObject:
   m_ObjectHideFlags: 0
@@ -6195,8 +6229,7 @@ CanvasRenderer:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 624313803}
-  - {fileID: 1012313182}
+  - {fileID: 1935247714}
   - {fileID: 1603730459}
   - {fileID: 575370211}
-  - {fileID: 969659277}
+  - {fileID: 624313803}

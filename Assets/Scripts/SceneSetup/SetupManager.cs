@@ -1,11 +1,15 @@
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro; // Usando TextMeshPro para textos mais bonitos!
+using TMPro; 
 using UnityEngine.SceneManagement;
 
 public class SetupManager : MonoBehaviour
 {
     [SerializeField] private string SceneHub = "HubPrincipal";
+    
+    [Header("Interface Principal")]
+    public GameObject painelPrincipalSetup; 
+
     [Header("Interface")]
     public TMP_InputField campoNome;
     public Button botaoConfirmar;
@@ -18,14 +22,21 @@ public class SetupManager : MonoBehaviour
 
     private int _avatarEscolhido = -1;
 
-    private void Start()
+    private void Awake()
     {
         if (PlayerPrefs.GetInt("CadastroCompleto", 0) == 1)
         {
+            if (painelPrincipalSetup != null) painelPrincipalSetup.SetActive(false);
+            
             SceneManager.LoadScene(SceneHub);
             return;
         }
 
+        if (painelPrincipalSetup != null) painelPrincipalSetup.SetActive(true);
+    }
+
+    private void Start()
+    {
         botaoConfirmar.interactable = false;
     }
 
@@ -33,13 +44,11 @@ public class SetupManager : MonoBehaviour
     {
         _avatarEscolhido = 0;
 
-
         if (fundoAvatarMasculino != null) fundoAvatarMasculino.color = corSelecionado;
         if (fundoAvatarFeminino != null) fundoAvatarFeminino.color = corNormal;
 
         VerificarSePodeConfirmar();
     }
-
 
     public void SelecionarFeminino()
     {
