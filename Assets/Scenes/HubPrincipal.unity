@@ -4561,7 +4561,7 @@ MonoBehaviour:
   tempoEntreItens: 0.3
   duracaoVoo: 0.8
   posicaoYForaDaTela: 300
-  posicaoYNaTela: 100
+  posicaoYNaTela: 0
 --- !u!4 &664976525
 Transform:
   m_ObjectHideFlags: 0
