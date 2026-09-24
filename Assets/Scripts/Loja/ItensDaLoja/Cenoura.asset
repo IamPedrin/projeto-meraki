@@ -17,5 +17,6 @@ MonoBehaviour:
   iconeVisual: {fileID: 2571490146112907233, guid: ad2828050de1f9e479376a96c6df7829, type: 3}
   precoMoedas: 10
   energiaRestaurada: 15
+  calorias: 222
   categoria: 0
   descricao: Cenourinha

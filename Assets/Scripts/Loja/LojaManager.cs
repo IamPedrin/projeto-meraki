@@ -26,6 +26,7 @@ public class LojaManager : MonoBehaviour
     public TextMeshProUGUI textoDescricaoPopup;
     public TextMeshProUGUI textoCategoriaPopup;
     public TextMeshProUGUI textoPrecoPopup;
+    public TextMeshProUGUI textoCalorias;
 
     [Header("Feedbacks Visuais")]
     public TextMeshProUGUI textoAvisoCompra;
@@ -72,8 +73,11 @@ public class LojaManager : MonoBehaviour
         textoNomePopup.text = alimentoClicado.nomeAlimento;
         textoDescricaoPopup.text = alimentoClicado.descricao;
         textoPrecoPopup.text = alimentoClicado.precoMoedas.ToString();
-
         textoCategoriaPopup.text = FormatarCategoria(alimentoClicado.categoria);
+        if (textoCalorias != null)
+        {
+            textoCalorias.text = alimentoClicado.calorias.ToString("F0") + " kcal";
+        }
 
         painelPopup.SetActive(true);
     }

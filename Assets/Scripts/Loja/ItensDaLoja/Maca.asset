@@ -17,5 +17,6 @@ MonoBehaviour:
   iconeVisual: {fileID: 7161268180630708012, guid: 180196fe966b01d4092ed3c37542e410, type: 3}
   precoMoedas: 5
   energiaRestaurada: 15
+  calorias: 12
   categoria: 0
   descricao: "Uma ma\xE7a com muitos nutrientes"

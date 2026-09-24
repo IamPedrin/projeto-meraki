@@ -17,5 +17,6 @@ MonoBehaviour:
   iconeVisual: {fileID: -5209360753122014122, guid: eba7df1b9fcb5d246802788385e6caad, type: 3}
   precoMoedas: 30
   energiaRestaurada: 15
+  calorias: 142
   categoria: 1
   descricao: ovinho frito

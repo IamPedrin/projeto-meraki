@@ -1,11 +1,11 @@
 using UnityEngine;
 
-public enum CategoriaAlimento 
-{ 
-    InNatura, 
-    MinimamenteProcessado, 
-    Processado, 
-    Ultraprocessado 
+public enum CategoriaAlimento
+{
+    InNatura,
+    MinimamenteProcessado,
+    Processado,
+    Ultraprocessado
 }
 
 [CreateAssetMenu(fileName = "AlimentoSO", menuName = "Scriptable Objects/AlimentoSO")]
@@ -17,6 +17,7 @@ public class AlimentoSO : ScriptableObject
     public Sprite iconeVisual;
     public int precoMoedas;
     public float energiaRestaurada = 15f;
+    public float calorias = 0f;
 
     [Header("Detalhes Nutricionais (Para o Popup)")]
     public CategoriaAlimento categoria;
