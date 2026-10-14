@@ -30,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.67866, y: -8.35699, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 33927810743865879}
@@ -135,7 +135,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CestaFollower
   stats: {fileID: 11400000, guid: d5c486b2f65a606439713a4d5c96b296, type: 2}
-  tipo: 0
   player: {fileID: 0}
   textoQuantidade: {fileID: 6275988136938347691}
 --- !u!70 &8154053498454369978

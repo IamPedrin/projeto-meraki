@@ -114,7 +114,7 @@ MonoBehaviour:
     m_Bits: 128
   groundCheck: {fileID: 5288567371894398723}
   groundCheckRadius: 0.1
-  distanciaEntreSeguidores: 1.2
+  distanciaEntreSeguidores: 0.66
   atrasoPorSeguidor: 0.2
   limiteParaCesta: 5
   prefabCestaFollower: {fileID: 7355636592511602563, guid: d8918b5f160368d4d9cde8be387f7b57, type: 3}
