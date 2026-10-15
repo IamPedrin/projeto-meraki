@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using TMPro;
 
 public class CozinhaManager : MonoBehaviour
 {
@@ -11,6 +12,11 @@ public class CozinhaManager : MonoBehaviour
     public SlotPrato[] slotsDoPrato;
     public Button botaoServir;
     public float bonusDeVariedade = 15f;
+
+    [Header("UI de Informações do Prato")]
+    public TextMeshProUGUI textoCaloriasPrato;
+    public TextMeshProUGUI textoEnergiaPrato;
+    public TextMeshProUGUI textoBonusVariedade;
 
     [Header("Despensa")]
     public Transform painelDespensa;
@@ -105,6 +111,62 @@ public class CozinhaManager : MonoBehaviour
                 }
             }
         }
+
+        AtualizarInfoPrato();
+    }
+
+    public void AtualizarInfoPrato()
+    {
+        float caloriasTotais = 0f;
+        float energiaTotal = 0f;
+        int itensNoPrato = 0;
+        HashSet<string> tiposDiferentes = new HashSet<string>();
+
+        foreach (SlotPrato slot in slotsDoPrato)
+        {
+            if (slot.alimentoNesteSlot != null)
+            {
+                itensNoPrato++;
+                caloriasTotais += slot.alimentoNesteSlot.calorias;
+                energiaTotal += slot.alimentoNesteSlot.energiaRestaurada;
+                tiposDiferentes.Add(slot.alimentoNesteSlot.idUnico);
+            }
+        }
+
+        bool temBonus = tiposDiferentes.Count >= 3;
+        if (temBonus)
+        {
+            energiaTotal += bonusDeVariedade;
+        }
+
+        if (textoCaloriasPrato != null)
+        {
+            textoCaloriasPrato.text = "Calorias: " + caloriasTotais.ToString("F0") + " kcal";
+        }
+
+        if (textoEnergiaPrato != null)
+        {
+            textoEnergiaPrato.text = "Energia: +" + energiaTotal.ToString("F0");
+        }
+
+        if (textoBonusVariedade != null)
+        {
+            if (temBonus)
+            {
+                textoBonusVariedade.text = "Prato Variado! Bônus +" + bonusDeVariedade.ToString("F0") + " Energia!";
+                textoBonusVariedade.color = Color.green;
+            }
+            else
+            {
+                textoBonusVariedade.text = "Variedade: " + tiposDiferentes.Count + "/3 alimentos diferentes";
+                textoBonusVariedade.color = Color.white;
+            }
+        }
+
+        if (botaoServir != null)
+        {
+            botaoServir.interactable = (itensNoPrato > 0);
+        }
     }
 
     private void ServirRefeicao()
@@ -165,7 +227,6 @@ public class CozinhaManager : MonoBehaviour
 
                 iconeComida.DOScale(Vector3.zero, tempoVoo).SetDelay(tempoEspera).SetEase(Ease.InOutSine).OnComplete(() =>
                 {
-
                     if (!acaoRealizada)
                     {
                         acaoRealizada = true;
