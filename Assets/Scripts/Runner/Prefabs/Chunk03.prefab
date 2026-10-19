@@ -652,7 +652,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f2419672fb896d4db33626b765bf14a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PontoSpawn
-  tipoDestePonto: 0
+  tipoDestePonto: 1
   prefabsUltraprocessados: []
 --- !u!1001 &5457503947530740228
 PrefabInstance:
