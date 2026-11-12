@@ -534,15 +534,16 @@ public static class ConfigurarRunnerUIScene
                 lfRt.anchorMin = new Vector2(0.5f, 0.5f);
                 lfRt.anchorMax = new Vector2(0.5f, 0.5f);
                 lfRt.pivot = new Vector2(0.5f, 0.5f);
-                lfRt.anchoredPosition = new Vector2(0f, 45f);
-                lfRt.sizeDelta = new Vector2(320f, 170f);
+                lfRt.anchoredPosition = new Vector2(0f, 74f);
+                lfRt.sizeDelta = new Vector2(215f, 170f);
 
                 var grid = localFrutas.GetComponent<GridLayoutGroup>();
                 if (grid == null) grid = localFrutas.gameObject.AddComponent<GridLayoutGroup>();
-                grid.cellSize = new Vector2(64f, 64f);
-                grid.spacing = new Vector2(6f, 6f);
+                grid.cellSize = new Vector2(40f, 40f);
+                grid.spacing = new Vector2(3f, 3f);
                 grid.childAlignment = TextAnchor.LowerCenter;
-                grid.constraint = GridLayoutGroup.Constraint.Flexible;
+                grid.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
+                grid.constraintCount = 5;
             }
 
             // Moldura da Contagem (Direita) - tile_0000 direto
