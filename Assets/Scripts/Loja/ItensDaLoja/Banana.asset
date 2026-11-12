@@ -19,4 +19,6 @@ MonoBehaviour:
   energiaRestaurada: 15
   calorias: 15
   categoria: 0
-  descricao: Uma banana com muito potassio
+  descricao: "A banana \xE9 docinha, macia e j\xE1 vem na sua pr\xF3pria embalagem
+    amarela! Ela \xE9 um alimento In Natura que d\xE1 muita energia para voc\xEA
+    correr e pular o dia todo, al\xE9m de deixar seus m\xFAsculos bem fortes e saud\xE1veis."
