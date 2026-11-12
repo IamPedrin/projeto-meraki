@@ -16,8 +16,25 @@ public class SlotPrato : MonoBehaviour, IDropHandler
             {
                 if (transform.childCount == 0)
                 {
-                    itemQueChegou.transform.SetParent(transform);
-                    itemQueChegou.transform.localPosition = Vector3.zero;
+                    itemQueChegou.transform.SetParent(transform, false);
+                    RectTransform rtSlot = transform as RectTransform;
+                    RectTransform rtItem = itemQueChegou.GetComponent<RectTransform>();
+                    if (rtItem != null)
+                    {
+                        rtItem.anchorMin = new Vector2(0.5f, 0.5f);
+                        rtItem.anchorMax = new Vector2(0.5f, 0.5f);
+                        rtItem.pivot = new Vector2(0.5f, 0.5f);
+                        rtItem.anchoredPosition = Vector2.zero;
+                        rtItem.localScale = Vector3.one;
+                        if (rtSlot != null)
+                        {
+                            rtItem.sizeDelta = rtSlot.sizeDelta * 0.9f;
+                        }
+                    }
+                    else
+                    {
+                        itemQueChegou.transform.localPosition = Vector3.zero;
+                    }
 
                     alimentoNesteSlot = itemQueChegou.alimentoData;
                 }

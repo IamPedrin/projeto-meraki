@@ -53,6 +53,7 @@ public class ItemArrastavel : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
 
         transform.SetParent(_canvasPrincipal.transform);
         transform.SetAsLastSibling();
+        _rectTransform.sizeDelta = new Vector2(80f, 80f);
         _canvasGroup.blocksRaycasts = false;
 
         if (textoQuantidade != null) textoQuantidade.gameObject.SetActive(false);

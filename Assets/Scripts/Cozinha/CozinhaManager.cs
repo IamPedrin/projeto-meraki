@@ -102,7 +102,9 @@ public class CozinhaManager : MonoBehaviour
                     AlimentoSO alimentoDado = bancoDeDadosAlimentos.Find(x => x.idUnico == id);
                     if (alimentoDado != null)
                     {
-                        novoItem.GetComponent<Image>().sprite = alimentoDado.iconeVisual;
+                        Image imgItem = novoItem.GetComponent<Image>();
+                        imgItem.sprite = alimentoDado.iconeVisual;
+                        imgItem.preserveAspect = true;
                         scriptArrastavel.alimentoData = alimentoDado;
                         scriptArrastavel.despensaTransform = painelDespensa;
 
