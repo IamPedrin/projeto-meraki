@@ -38,11 +38,13 @@ public static class ConfigurarRunnerUIScene
             return;
         }
 
-        // Sprites necessários
+        // Sprites 9-slice do pacote Kenney
+        // IMPORTANTE: tile_0000.png JÁ POSSUI a borda de madeira + interior creme em um único sprite!
+        // Não devemos aninhar FundoCreme dentro de tile_0001, pois isso duplica a borda e esmaga o espaço interno.
         Sprite spCard = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Sprites/kenney_ui-pack-pixel-adventure/Thick outline/tile_0017.png");
         Sprite spHeader = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Sprites/kenney_ui-pack-pixel-adventure/Thick outline/tile_0016.png");
         Sprite spWood = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Sprites/kenney_ui-pack-pixel-adventure/Thick outline/tile_0001.png");
-        Sprite spCream = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Sprites/kenney_ui-pack-pixel-adventure/Thick outline/tile_0000.png");
+        Sprite spCreamBox = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Sprites/kenney_ui-pack-pixel-adventure/Thick outline/tile_0000.png");
         Sprite spCoin = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Sprites/Icons/Coin2.png");
         Sprite spBalanca = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Scripts/Loja/ItensDaLoja/balanca.png");
 
@@ -55,7 +57,8 @@ public static class ConfigurarRunnerUIScene
 
         Color corTextoEscuro = new Color(0.22f, 0.13f, 0.07f, 1f);
         Color corTextoClaro = new Color(1f, 0.97f, 0.92f, 1f);
-        Color corMoedaDourada = new Color(0.68f, 0.42f, 0.05f, 1f); // Contraste ideal no fundo creme
+        Color corMoedaDouradaEscura = new Color(0.62f, 0.36f, 0.04f, 1f); // Alto contraste no fundo creme
+        Color corMoedaDouradaClara = new Color(1f, 0.93f, 0.50f, 1f);   // Alto contraste no fundo madeira
 
         GameManager gm = Object.FindAnyObjectByType<GameManager>(FindObjectsInactive.Include);
 
@@ -75,24 +78,20 @@ public static class ConfigurarRunnerUIScene
             if (hudTrans.GetComponent<SafeArea>() == null)
                 hudTrans.gameObject.AddComponent<SafeArea>();
 
-            // Moldura Coletados (Superior Esquerdo)
+            // 1A. Placa Coletados (Superior Esquerdo) - Usa tile_0000 direto (borda de madeira + miolo creme amplo)
             RectTransform mColetados = ObterOuCriarImg(hudTrans, "MolduraColetadosHUD",
                 new Vector2(0f, 1f), new Vector2(0f, 1f), new Vector2(0f, 1f),
-                new Vector2(24f, -20f), new Vector2(360f, 74f), spWood, true, Color.white);
-            RectTransform fcCol = ObterOuCriarImg(mColetados, "FundoCreme",
-                Vector2.zero, Vector2.one, new Vector2(0.5f, 0.5f),
-                Vector2.zero, new Vector2(-16f, -16f), spCream, true, Color.white);
-            fcCol.SetAsFirstSibling();
+                new Vector2(24f, -20f), new Vector2(420f, 92f), spCreamBox, true, Color.white, 0.35f);
+            RemoverFilhoSeExistir(mColetados, "FundoCreme");
 
-            // Ícone da fruta na moldura da HUD
             Sprite spFrutaIcone = null;
             var objCardTut = canvas.transform.Find("PanelTutorial/CardTutorial/ImageObjetivo");
             if (objCardTut != null && objCardTut.GetComponent<UnityEngine.UI.Image>() != null)
                 spFrutaIcone = objCardTut.GetComponent<UnityEngine.UI.Image>().sprite;
 
             RectTransform iconeFruta = ObterOuCriarImg(mColetados, "IconeAlimentoHUD",
-                new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
-                new Vector2(-130f, 0f), new Vector2(46f, 46f), spFrutaIcone, false, Color.white);
+                new Vector2(0f, 0.5f), new Vector2(0f, 0.5f), new Vector2(0.5f, 0.5f),
+                new Vector2(54f, 0f), new Vector2(56f, 56f), spFrutaIcone, false, Color.white);
             iconeFruta.SetAsLastSibling();
 
             Transform txtAlimentos = hudTrans.Find("TextHUDAlimentosTotal") ?? mColetados.Find("TextHUDAlimentosTotal");
@@ -102,11 +101,11 @@ public static class ConfigurarRunnerUIScene
                 Undo.RecordObject(taRt, "Ajustar TextHUDAlimentosTotal");
                 taRt.SetParent(mColetados, false);
                 taRt.SetAsLastSibling();
-                taRt.anchorMin = new Vector2(0.5f, 0.5f);
-                taRt.anchorMax = new Vector2(0.5f, 0.5f);
-                taRt.pivot = new Vector2(0f, 0.5f);
-                taRt.anchoredPosition = new Vector2(-96f, 0f);
-                taRt.sizeDelta = new Vector2(250f, 48f);
+                taRt.anchorMin = new Vector2(0f, 0.5f);
+                taRt.anchorMax = new Vector2(1f, 0.5f);
+                taRt.pivot = new Vector2(0.5f, 0.5f);
+                taRt.offsetMin = new Vector2(94f, -30f);
+                taRt.offsetMax = new Vector2(-22f, 30f);
 
                 var tmp = txtAlimentos.GetComponent<TextMeshProUGUI>();
                 if (tmp != null)
@@ -114,17 +113,18 @@ public static class ConfigurarRunnerUIScene
                     Undo.RecordObject(tmp, "Ajustar Estilo TextHUDAlimentosTotal");
                     if (fontPadrao != null) tmp.font = fontPadrao;
                     tmp.text = "Coletados: 0";
-                    tmp.fontSize = 34f;
+                    tmp.fontSize = 40f;
                     tmp.enableAutoSizing = true;
-                    tmp.fontSizeMin = 22f;
-                    tmp.fontSizeMax = 34f;
+                    tmp.fontSizeMin = 26f;
+                    tmp.fontSizeMax = 40f;
                     tmp.fontStyle = FontStyles.Bold;
                     tmp.color = corTextoEscuro;
                     tmp.alignment = TextAlignmentOptions.MidlineLeft;
+                    tmp.margin = Vector4.zero;
                 }
             }
 
-            // Moldura Moedas (Superior Central)
+            // 1B. Placa Moedas (Superior Central) - Usa tile_0000 direto no próprio HUDMoedas
             Transform hudMoedas = hudTrans.Find("HUDMoedas");
             if (hudMoedas != null)
             {
@@ -134,32 +134,37 @@ public static class ConfigurarRunnerUIScene
                 hmRt.anchorMax = new Vector2(0.5f, 1f);
                 hmRt.pivot = new Vector2(0.5f, 1f);
                 hmRt.anchoredPosition = new Vector2(0f, -20f);
-                hmRt.sizeDelta = new Vector2(250f, 74f);
+                hmRt.sizeDelta = new Vector2(380f, 92f);
+
+                // Desativar qualquer LayoutGroup antigo se existir
+                var hlgAntigo = hmRt.GetComponent<HorizontalLayoutGroup>();
+                if (hlgAntigo != null) hlgAntigo.enabled = false;
+
+                if (hmRt.GetComponent<CanvasRenderer>() == null)
+                    hmRt.gameObject.AddComponent<CanvasRenderer>();
 
                 var imgMoedas = hmRt.GetComponent<UnityEngine.UI.Image>();
-                if (imgMoedas != null)
-                {
-                    Undo.RecordObject(imgMoedas, "Ajustar Sprite HUDMoedas");
-                    imgMoedas.sprite = spWood;
-                    imgMoedas.type = UnityEngine.UI.Image.Type.Sliced;
-                    imgMoedas.pixelsPerUnitMultiplier = 0.25f;
-                    imgMoedas.color = Color.white;
-                }
+                if (imgMoedas == null)
+                    imgMoedas = hmRt.gameObject.AddComponent<UnityEngine.UI.Image>();
 
-                RectTransform fcMoedas = ObterOuCriarImg(hmRt, "FundoCreme",
-                    Vector2.zero, Vector2.one, new Vector2(0.5f, 0.5f),
-                    Vector2.zero, new Vector2(-16f, -16f), spCream, true, Color.white);
-                fcMoedas.SetAsFirstSibling();
+                Undo.RecordObject(imgMoedas, "Ajustar Sprite HUDMoedas");
+                imgMoedas.sprite = spCreamBox;
+                imgMoedas.type = UnityEngine.UI.Image.Type.Sliced;
+                imgMoedas.pixelsPerUnitMultiplier = 0.35f;
+                imgMoedas.color = Color.white;
+                imgMoedas.raycastTarget = false;
+
+                RemoverFilhoSeExistir(hmRt, "FundoCreme");
 
                 Transform iconeMoeda = hmRt.Find("Image");
                 if (iconeMoeda != null)
                 {
                     RectTransform imRt = iconeMoeda as RectTransform;
-                    imRt.anchorMin = new Vector2(0.5f, 0.5f);
-                    imRt.anchorMax = new Vector2(0.5f, 0.5f);
+                    imRt.anchorMin = new Vector2(0f, 0.5f);
+                    imRt.anchorMax = new Vector2(0f, 0.5f);
                     imRt.pivot = new Vector2(0.5f, 0.5f);
-                    imRt.anchoredPosition = new Vector2(-75f, 0f);
-                    imRt.sizeDelta = new Vector2(44f, 44f);
+                    imRt.anchoredPosition = new Vector2(52f, 0f);
+                    imRt.sizeDelta = new Vector2(54f, 54f);
                     imRt.SetAsLastSibling();
 
                     var img = iconeMoeda.GetComponent<UnityEngine.UI.Image>();
@@ -167,6 +172,7 @@ public static class ConfigurarRunnerUIScene
                     {
                         if (spCoin != null) img.sprite = spCoin;
                         img.preserveAspect = true;
+                        img.raycastTarget = false;
                     }
                 }
 
@@ -174,11 +180,11 @@ public static class ConfigurarRunnerUIScene
                 if (txtMoedas != null)
                 {
                     RectTransform tmRt = txtMoedas as RectTransform;
-                    tmRt.anchorMin = new Vector2(0.5f, 0.5f);
-                    tmRt.anchorMax = new Vector2(0.5f, 0.5f);
-                    tmRt.pivot = new Vector2(0f, 0.5f);
-                    tmRt.anchoredPosition = new Vector2(-45f, 0f);
-                    tmRt.sizeDelta = new Vector2(150f, 48f);
+                    tmRt.anchorMin = new Vector2(0f, 0.5f);
+                    tmRt.anchorMax = new Vector2(1f, 0.5f);
+                    tmRt.pivot = new Vector2(0.5f, 0.5f);
+                    tmRt.offsetMin = new Vector2(92f, -30f);
+                    tmRt.offsetMax = new Vector2(-22f, 30f);
                     tmRt.SetAsLastSibling();
 
                     var tmp = txtMoedas.GetComponent<TextMeshProUGUI>();
@@ -186,36 +192,31 @@ public static class ConfigurarRunnerUIScene
                     {
                         if (fontPadrao != null) tmp.font = fontPadrao;
                         tmp.text = "Moedas: 0";
-                        tmp.fontSize = 34f;
+                        tmp.fontSize = 40f;
                         tmp.enableAutoSizing = true;
-                        tmp.fontSizeMin = 22f;
-                        tmp.fontSizeMax = 34f;
+                        tmp.fontSizeMin = 26f;
+                        tmp.fontSizeMax = 40f;
                         tmp.fontStyle = FontStyles.Bold;
                         tmp.color = corTextoEscuro;
                         tmp.alignment = TextAlignmentOptions.MidlineLeft;
+                        tmp.margin = Vector4.zero;
                     }
                 }
             }
 
-            // Botões do Canto Superior Direito (Restart e Pause)
+            // 1C. Botões do Canto Superior Direito (Restart e Pause) - 92x92 com tile_0000 direto
             Transform btnRestart = hudTrans.Find("ButtonRestart") ?? hudTrans.Find("MolduraBotaoRestart/ButtonRestart");
             Transform btnPause = hudTrans.Find("ButtonPause") ?? hudTrans.Find("MolduraBotaoPause/ButtonPause");
 
             RectTransform molduraRestart = ObterOuCriarImg(hudTrans, "MolduraBotaoRestart",
                 new Vector2(1f, 1f), new Vector2(1f, 1f), new Vector2(1f, 1f),
-                new Vector2(-116f, -20f), new Vector2(80f, 80f), spWood, true, Color.white);
-            RectTransform fcRes = ObterOuCriarImg(molduraRestart, "FundoCreme",
-                Vector2.zero, Vector2.one, new Vector2(0.5f, 0.5f),
-                Vector2.zero, new Vector2(-14f, -14f), spCream, true, Color.white);
-            fcRes.SetAsFirstSibling();
+                new Vector2(-130f, -20f), new Vector2(92f, 92f), spCreamBox, true, Color.white, 0.35f);
+            RemoverFilhoSeExistir(molduraRestart, "FundoCreme");
 
             RectTransform molduraPause = ObterOuCriarImg(hudTrans, "MolduraBotaoPause",
                 new Vector2(1f, 1f), new Vector2(1f, 1f), new Vector2(1f, 1f),
-                new Vector2(-24f, -20f), new Vector2(80f, 80f), spWood, true, Color.white);
-            RectTransform fcPau = ObterOuCriarImg(molduraPause, "FundoCreme",
-                Vector2.zero, Vector2.one, new Vector2(0.5f, 0.5f),
-                Vector2.zero, new Vector2(-14f, -14f), spCream, true, Color.white);
-            fcPau.SetAsFirstSibling();
+                new Vector2(-24f, -20f), new Vector2(92f, 92f), spCreamBox, true, Color.white, 0.35f);
+            RemoverFilhoSeExistir(molduraPause, "FundoCreme");
 
             if (btnRestart != null)
             {
@@ -226,7 +227,7 @@ public static class ConfigurarRunnerUIScene
                 brRt.anchorMax = new Vector2(0.5f, 0.5f);
                 brRt.pivot = new Vector2(0.5f, 0.5f);
                 brRt.anchoredPosition = Vector2.zero;
-                brRt.sizeDelta = new Vector2(56f, 56f);
+                brRt.sizeDelta = new Vector2(58f, 58f);
                 var img = btnRestart.GetComponent<UnityEngine.UI.Image>();
                 if (img != null) img.preserveAspect = true;
             }
@@ -240,7 +241,7 @@ public static class ConfigurarRunnerUIScene
                 bpRt.anchorMax = new Vector2(0.5f, 0.5f);
                 bpRt.pivot = new Vector2(0.5f, 0.5f);
                 bpRt.anchoredPosition = Vector2.zero;
-                bpRt.sizeDelta = new Vector2(56f, 56f);
+                bpRt.sizeDelta = new Vector2(58f, 58f);
                 var img = btnPause.GetComponent<UnityEngine.UI.Image>();
                 if (img != null) img.preserveAspect = true;
             }
@@ -261,19 +262,21 @@ public static class ConfigurarRunnerUIScene
             var imgOverlay = pauseTrans.GetComponent<UnityEngine.UI.Image>();
             if (imgOverlay != null)
             {
+                imgOverlay.sprite = null;
+                imgOverlay.type = UnityEngine.UI.Image.Type.Simple;
                 imgOverlay.color = new Color(0f, 0f, 0f, 0.74f);
             }
 
             // Card principal centralizado
             RectTransform cardPause = ObterOuCriarImg(pauseTrans, "CardPause",
                 new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
-                Vector2.zero, new Vector2(1060f, 640f), spCard, true, Color.white);
+                Vector2.zero, new Vector2(1060f, 640f), spCard, true, Color.white, 0.25f);
 
             // Faixa de Título
             Transform faixaP = pauseTrans.Find("FaixaTituloPause") ?? cardPause.Find("FaixaTituloPause");
             RectTransform faixaRt = faixaP as RectTransform ?? ObterOuCriarImg(cardPause, "FaixaTituloPause",
                 new Vector2(0.5f, 1f), new Vector2(0.5f, 1f), new Vector2(0.5f, 1f),
-                new Vector2(0f, -24f), new Vector2(840f, 84f), spHeader, true, Color.white);
+                new Vector2(0f, -24f), new Vector2(840f, 84f), spHeader, true, Color.white, 0.25f);
             faixaRt.SetParent(cardPause, false);
             faixaRt.anchorMin = new Vector2(0.5f, 1f);
             faixaRt.anchorMax = new Vector2(0.5f, 1f);
@@ -308,7 +311,7 @@ public static class ConfigurarRunnerUIScene
                 }
             }
 
-            // Painel central de Áudio (Panel)
+            // Painel central de Áudio (Panel) - Usa tile_0000 direto sem FundoInterno duplicado
             Transform panelAudio = pauseTrans.Find("Panel") ?? cardPause.Find("Panel");
             if (panelAudio != null)
             {
@@ -323,19 +326,14 @@ public static class ConfigurarRunnerUIScene
                 var imgPa = panelAudio.GetComponent<UnityEngine.UI.Image>();
                 if (imgPa != null)
                 {
-                    imgPa.sprite = spWood;
+                    imgPa.sprite = spCreamBox;
                     imgPa.type = UnityEngine.UI.Image.Type.Sliced;
-                    imgPa.pixelsPerUnitMultiplier = 0.25f;
+                    imgPa.pixelsPerUnitMultiplier = 0.30f;
                     imgPa.color = Color.white;
                 }
 
-                // FundoInterno DEVE ser o primeiro filho (atrás de Texto e Sliders)
-                RectTransform fundoInternoAudio = ObterOuCriarImg(paRt, "FundoInterno",
-                    Vector2.zero, Vector2.one, new Vector2(0.5f, 0.5f),
-                    Vector2.zero, new Vector2(-24f, -24f), spCream, true, Color.white);
-                fundoInternoAudio.SetAsFirstSibling();
+                RemoverFilhoSeExistir(paRt, "FundoInterno");
 
-                // Configurar Textos e Sliders perfeitamente simétricos
                 Transform contTexto = paRt.Find("Texto");
                 Transform contSliders = paRt.Find("Sliders");
 
@@ -367,10 +365,10 @@ public static class ConfigurarRunnerUIScene
                         {
                             if (fontPadrao != null) tmp.font = fontPadrao;
                             tmp.text = rotulos[i];
-                            tmp.fontSize = 32f;
+                            tmp.fontSize = 34f;
                             tmp.enableAutoSizing = true;
-                            tmp.fontSizeMin = 20f;
-                            tmp.fontSizeMax = 32f;
+                            tmp.fontSizeMin = 22f;
+                            tmp.fontSizeMax = 34f;
                             tmp.fontStyle = FontStyles.Bold;
                             tmp.color = corTextoEscuro;
                             tmp.alignment = TextAlignmentOptions.MidlineLeft;
@@ -406,7 +404,7 @@ public static class ConfigurarRunnerUIScene
                 }
             }
 
-            // Botões de Ação Inferiores (Buttons)
+            // Botões de Ação Inferiores (Buttons) - Usa tile_0000 direto
             Transform contButtons = pauseTrans.Find("Buttons") ?? cardPause.Find("Buttons");
             if (contButtons != null)
             {
@@ -436,21 +434,18 @@ public static class ConfigurarRunnerUIScene
                         mRt.anchorMax = new Vector2(0.5f, 0.5f);
                         mRt.pivot = new Vector2(0.5f, 0.5f);
                         mRt.anchoredPosition = new Vector2(posX[i], 0f);
-                        mRt.sizeDelta = new Vector2(220f, 130f);
+                        mRt.sizeDelta = new Vector2(230f, 138f);
 
                         var imgM = m.GetComponent<UnityEngine.UI.Image>();
                         if (imgM != null)
                         {
-                            imgM.sprite = spWood;
+                            imgM.sprite = spCreamBox;
                             imgM.type = UnityEngine.UI.Image.Type.Sliced;
-                            imgM.pixelsPerUnitMultiplier = 0.25f;
+                            imgM.pixelsPerUnitMultiplier = 0.35f;
                             imgM.color = Color.white;
                         }
 
-                        RectTransform fcBtn = ObterOuCriarImg(mRt, "FundoInterno",
-                            Vector2.zero, Vector2.one, new Vector2(0.5f, 0.5f),
-                            Vector2.zero, new Vector2(-18f, -18f), spCream, true, Color.white);
-                        fcBtn.SetAsFirstSibling();
+                        RemoverFilhoSeExistir(mRt, "FundoInterno");
 
                         Transform btn = m.Find(btnNomes[i]);
                         if (btn != null)
@@ -460,7 +455,7 @@ public static class ConfigurarRunnerUIScene
                             btnRt.anchorMin = new Vector2(0.5f, 0.5f);
                             btnRt.anchorMax = new Vector2(0.5f, 0.5f);
                             btnRt.pivot = new Vector2(0.5f, 0.5f);
-                            btnRt.anchoredPosition = new Vector2(0f, 16f);
+                            btnRt.anchoredPosition = new Vector2(0f, 18f);
                             btnRt.sizeDelta = new Vector2(64f, 64f);
                             var bImg = btn.GetComponent<UnityEngine.UI.Image>();
                             if (bImg != null) bImg.preserveAspect = true;
@@ -468,7 +463,7 @@ public static class ConfigurarRunnerUIScene
 
                         ObterOuCriarTexto(mRt, "Label",
                             new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
-                            new Vector2(0f, -36f), new Vector2(180f, 34f), labels[i], 24f, corTextoEscuro, TextAlignmentOptions.Center, fontPadrao);
+                            new Vector2(0f, -34f), new Vector2(190f, 36f), labels[i], 26f, corTextoEscuro, TextAlignmentOptions.Center, fontPadrao);
                     }
                 }
             }
@@ -492,30 +487,24 @@ public static class ConfigurarRunnerUIScene
                 imgBg.color = new Color(0f, 0f, 0f, 0.78f);
             }
 
-            // Card principal centralizado
             RectTransform cardBalanca = ObterOuCriarImg(balancaTrans, "CardBalanca",
                 new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
-                Vector2.zero, new Vector2(1140f, 680f), spCard, true, Color.white);
+                Vector2.zero, new Vector2(1140f, 680f), spCard, true, Color.white, 0.25f);
 
-            // Faixa de Título
             RectTransform faixaBalanca = ObterOuCriarImg(cardBalanca, "FaixaTituloBalanca",
                 new Vector2(0.5f, 1f), new Vector2(0.5f, 1f), new Vector2(0.5f, 1f),
-                new Vector2(0f, -24f), new Vector2(860f, 84f), spHeader, true, Color.white);
+                new Vector2(0f, -24f), new Vector2(860f, 84f), spHeader, true, Color.white, 0.25f);
 
             ObterOuCriarTexto(faixaBalanca, "TituloBalanca",
                 Vector2.zero, Vector2.one, new Vector2(0.5f, 0.5f),
                 Vector2.zero, new Vector2(-40f, -14f), "HORA DA PESAGEM!", 42f, corTextoClaro, TextAlignmentOptions.Center, fontPadrao);
 
-            // Moldura do Visor da Balança (Esquerda)
+            // Moldura do Visor da Balança (Esquerda) - tile_0000 direto
             RectTransform visorBalanca = ObterOuCriarImg(cardBalanca, "MolduraVisorBalanca",
                 new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
-                new Vector2(-200f, -25f), new Vector2(640f, 480f), spWood, true, Color.white);
-            RectTransform fcVisor = ObterOuCriarImg(visorBalanca, "FundoCreme",
-                Vector2.zero, Vector2.one, new Vector2(0.5f, 0.5f),
-                Vector2.zero, new Vector2(-22f, -22f), spCream, true, Color.white);
-            fcVisor.SetAsFirstSibling();
+                new Vector2(-200f, -25f), new Vector2(640f, 480f), spCreamBox, true, Color.white, 0.30f);
+            RemoverFilhoSeExistir(visorBalanca, "FundoCreme");
 
-            // Mover ImageBalanca para dentro de MolduraVisorBalanca
             Transform imgB = balancaTrans.Find("ImageBalanca") ?? cardBalanca.Find("ImageBalanca") ?? visorBalanca.Find("ImageBalanca");
             if (imgB != null)
             {
@@ -536,7 +525,6 @@ public static class ConfigurarRunnerUIScene
                 }
             }
 
-            // Mover LocalFrutas para dentro de MolduraVisorBalanca (sobre o prato da balança)
             Transform localFrutas = balancaTrans.Find("LocalFrutas") ?? cardBalanca.Find("LocalFrutas") ?? visorBalanca.Find("LocalFrutas");
             if (localFrutas != null)
             {
@@ -557,26 +545,21 @@ public static class ConfigurarRunnerUIScene
                 grid.constraint = GridLayoutGroup.Constraint.Flexible;
             }
 
-            // Moldura da Contagem (Direita)
+            // Moldura da Contagem (Direita) - tile_0000 direto
             RectTransform contagemBalanca = ObterOuCriarImg(cardBalanca, "MolduraContagemBalanca",
                 new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
-                new Vector2(325f, -25f), new Vector2(360f, 480f), spWood, true, Color.white);
-            RectTransform fcCont = ObterOuCriarImg(contagemBalanca, "FundoCreme",
-                Vector2.zero, Vector2.one, new Vector2(0.5f, 0.5f),
-                Vector2.zero, new Vector2(-22f, -22f), spCream, true, Color.white);
-            fcCont.SetAsFirstSibling();
+                new Vector2(325f, -25f), new Vector2(360f, 480f), spCreamBox, true, Color.white, 0.30f);
+            RemoverFilhoSeExistir(contagemBalanca, "FundoCreme");
 
             ObterOuCriarTexto(contagemBalanca, "TituloContagem",
                 new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
-                new Vector2(0f, 160f), new Vector2(310f, 48f), "ALIMENTOS PESADOS", 24f, corTextoEscuro, TextAlignmentOptions.Center, fontPadrao);
+                new Vector2(0f, 160f), new Vector2(310f, 52f), "ALIMENTOS PESADOS", 26f, corTextoEscuro, TextAlignmentOptions.Center, fontPadrao);
 
+            // BadgeNumero com tile_0001 (placa de madeira escura com número dourado claro de alto contraste)
             RectTransform badgeNum = ObterOuCriarImg(contagemBalanca, "BadgeNumero",
                 new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
-                new Vector2(0f, 30f), new Vector2(220f, 170f), spWood, true, Color.white);
-            RectTransform fcBadge = ObterOuCriarImg(badgeNum, "FundoInterno",
-                Vector2.zero, Vector2.one, new Vector2(0.5f, 0.5f),
-                Vector2.zero, new Vector2(-16f, -16f), spCream, true, Color.white);
-            fcBadge.SetAsFirstSibling();
+                new Vector2(0f, 25f), new Vector2(220f, 170f), spWood, true, Color.white, 0.35f);
+            RemoverFilhoSeExistir(badgeNum, "FundoInterno");
 
             Transform txtContagem = balancaTrans.Find("TextContagem") ?? cardBalanca.Find("TextContagem") ?? badgeNum.Find("TextContagem");
             if (txtContagem != null)
@@ -587,26 +570,26 @@ public static class ConfigurarRunnerUIScene
                 tcRt.anchorMin = Vector2.zero;
                 tcRt.anchorMax = Vector2.one;
                 tcRt.pivot = new Vector2(0.5f, 0.5f);
-                tcRt.offsetMin = new Vector2(15f, 10f);
-                tcRt.offsetMax = new Vector2(-15f, -10f);
+                tcRt.offsetMin = new Vector2(18f, 14f);
+                tcRt.offsetMax = new Vector2(-18f, -14f);
 
                 var tmp = txtContagem.GetComponent<TextMeshProUGUI>();
                 if (tmp != null)
                 {
                     if (fontPadrao != null) tmp.font = fontPadrao;
-                    tmp.fontSize = 88f;
+                    tmp.fontSize = 92f;
                     tmp.enableAutoSizing = true;
                     tmp.fontSizeMin = 48f;
-                    tmp.fontSizeMax = 88f;
+                    tmp.fontSizeMax = 92f;
                     tmp.fontStyle = FontStyles.Bold;
-                    tmp.color = corMoedaDourada;
+                    tmp.color = corMoedaDouradaClara;
                     tmp.alignment = TextAlignmentOptions.Center;
                 }
             }
 
             ObterOuCriarTexto(contagemBalanca, "TextInfo",
                 new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
-                new Vector2(0f, -140f), new Vector2(310f, 44f), "Convertendo em moedas...", 20f, new Color(0.38f, 0.24f, 0.12f, 1f), TextAlignmentOptions.Center, fontPadrao);
+                new Vector2(0f, -140f), new Vector2(310f, 44f), "Convertendo em moedas...", 22f, new Color(0.38f, 0.24f, 0.12f, 1f), TextAlignmentOptions.Center, fontPadrao);
         }
 
         // ==========================================
@@ -627,28 +610,23 @@ public static class ConfigurarRunnerUIScene
                 imgBg.color = new Color(0f, 0f, 0f, 0.82f);
             }
 
-            // Card principal centralizado
             RectTransform cardGo = ObterOuCriarImg(goTrans, "CardGameOver",
                 new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
-                Vector2.zero, new Vector2(1080f, 650f), spCard, true, Color.white);
+                Vector2.zero, new Vector2(1080f, 650f), spCard, true, Color.white, 0.25f);
 
-            // Faixa de Título
             RectTransform faixaGo = ObterOuCriarImg(cardGo, "FaixaTituloGameOver",
                 new Vector2(0.5f, 1f), new Vector2(0.5f, 1f), new Vector2(0.5f, 1f),
-                new Vector2(0f, -24f), new Vector2(860f, 84f), spHeader, true, Color.white);
+                new Vector2(0f, -24f), new Vector2(860f, 84f), spHeader, true, Color.white, 0.25f);
 
             ObterOuCriarTexto(faixaGo, "TituloGameOver",
                 Vector2.zero, Vector2.one, new Vector2(0.5f, 0.5f),
                 Vector2.zero, new Vector2(-40f, -14f), "CORRIDA CONCLUÍDA!", 42f, corTextoClaro, TextAlignmentOptions.Center, fontPadrao);
 
-            // Moldura do Resumo de Score
+            // Moldura do Resumo de Score - tile_0000 direto
             RectTransform resumoScore = ObterOuCriarImg(cardGo, "MolduraResumoScore",
                 new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
-                new Vector2(0f, 105f), new Vector2(880f, 160f), spWood, true, Color.white);
-            RectTransform fcScore = ObterOuCriarImg(resumoScore, "FundoCreme",
-                Vector2.zero, Vector2.one, new Vector2(0.5f, 0.5f),
-                Vector2.zero, new Vector2(-22f, -22f), spCream, true, Color.white);
-            fcScore.SetAsFirstSibling();
+                new Vector2(0f, 105f), new Vector2(880f, 160f), spCreamBox, true, Color.white, 0.30f);
+            RemoverFilhoSeExistir(resumoScore, "FundoCreme");
 
             Transform txtScore = goTrans.Find("TextScore") ?? cardGo.Find("TextScore") ?? resumoScore.Find("TextScore");
             if (txtScore != null)
@@ -659,35 +637,32 @@ public static class ConfigurarRunnerUIScene
                 tsRt.anchorMin = Vector2.zero;
                 tsRt.anchorMax = Vector2.one;
                 tsRt.pivot = new Vector2(0.5f, 0.5f);
-                tsRt.offsetMin = new Vector2(25f, 15f);
-                tsRt.offsetMax = new Vector2(-25f, -15f);
+                tsRt.offsetMin = new Vector2(28f, 18f);
+                tsRt.offsetMax = new Vector2(-28f, -18f);
 
                 var tmp = txtScore.GetComponent<TextMeshProUGUI>();
                 if (tmp != null)
                 {
                     if (fontPadrao != null) tmp.font = fontPadrao;
-                    tmp.fontSize = 34f;
+                    tmp.fontSize = 36f;
                     tmp.enableAutoSizing = true;
                     tmp.fontSizeMin = 22f;
-                    tmp.fontSizeMax = 34f;
+                    tmp.fontSizeMax = 36f;
                     tmp.fontStyle = FontStyles.Bold;
                     tmp.color = corTextoEscuro;
                     tmp.alignment = TextAlignmentOptions.Center;
                 }
             }
 
-            // Moldura do Bônus de Moedas
+            // Moldura do Bônus de Moedas - tile_0001 direto (placa de madeira com texto dourado claro)
             RectTransform bonusMoedas = ObterOuCriarImg(cardGo, "MolduraBonusMoedas",
                 new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
-                new Vector2(0f, -35f), new Vector2(640f, 84f), spWood, true, Color.white);
-            RectTransform fcBonus = ObterOuCriarImg(bonusMoedas, "FundoCreme",
-                Vector2.zero, Vector2.one, new Vector2(0.5f, 0.5f),
-                Vector2.zero, new Vector2(-18f, -18f), spCream, true, Color.white);
-            fcBonus.SetAsFirstSibling();
+                new Vector2(0f, -35f), new Vector2(640f, 90f), spWood, true, Color.white, 0.35f);
+            RemoverFilhoSeExistir(bonusMoedas, "FundoCreme");
 
             RectTransform iconeBonus = ObterOuCriarImg(bonusMoedas, "IconeMoedaBonus",
                 new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
-                new Vector2(-190f, 0f), new Vector2(46f, 46f), spCoin, false, Color.white);
+                new Vector2(-200f, 0f), new Vector2(52f, 52f), spCoin, false, Color.white);
             iconeBonus.SetAsLastSibling();
 
             Transform txtBonus = goTrans.Find("TextMoedasBonus") ?? cardGo.Find("TextMoedasBonus") ?? bonusMoedas.Find("TextMoedasBonus");
@@ -699,24 +674,24 @@ public static class ConfigurarRunnerUIScene
                 tbRt.anchorMin = new Vector2(0.5f, 0.5f);
                 tbRt.anchorMax = new Vector2(0.5f, 0.5f);
                 tbRt.pivot = new Vector2(0f, 0.5f);
-                tbRt.anchoredPosition = new Vector2(-155f, 0f);
-                tbRt.sizeDelta = new Vector2(380f, 50f);
+                tbRt.anchoredPosition = new Vector2(-160f, 0f);
+                tbRt.sizeDelta = new Vector2(420f, 56f);
 
                 var tmp = txtBonus.GetComponent<TextMeshProUGUI>();
                 if (tmp != null)
                 {
                     if (fontPadrao != null) tmp.font = fontPadrao;
-                    tmp.fontSize = 36f;
+                    tmp.fontSize = 38f;
                     tmp.enableAutoSizing = true;
-                    tmp.fontSizeMin = 22f;
-                    tmp.fontSizeMax = 36f;
+                    tmp.fontSizeMin = 24f;
+                    tmp.fontSizeMax = 38f;
                     tmp.fontStyle = FontStyles.Bold;
-                    tmp.color = corMoedaDourada;
-                    tmp.alignment = TextAlignmentOptions.Center;
+                    tmp.color = corMoedaDouradaClara;
+                    tmp.alignment = TextAlignmentOptions.MidlineLeft;
                 }
             }
 
-            // Botões de Ação Inferiores (HorizontalAlign)
+            // Botões de Ação Inferiores (HorizontalAlign) - tile_0000 direto
             Transform contGoButtons = goTrans.Find("HorizontalAlign") ?? cardGo.Find("HorizontalAlign");
             if (contGoButtons != null)
             {
@@ -740,14 +715,11 @@ public static class ConfigurarRunnerUIScene
                 {
                     RectTransform m = ObterOuCriarImg(cbRt, moldurasGo[i],
                         new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
-                        new Vector2(posXGo[i], 0f), new Vector2(230f, 135f), spWood, true, Color.white);
+                        new Vector2(posXGo[i], 0f), new Vector2(235f, 138f), spCreamBox, true, Color.white, 0.35f);
 
-                    RectTransform fcBtnGo = ObterOuCriarImg(m, "FundoInterno",
-                        Vector2.zero, Vector2.one, new Vector2(0.5f, 0.5f),
-                        Vector2.zero, new Vector2(-18f, -18f), spCream, true, Color.white);
-                    fcBtnGo.SetAsFirstSibling();
+                    RemoverFilhoSeExistir(m, "FundoInterno");
 
-                    Transform btn = cbRt.Find(btnNomesGo[i]);
+                    Transform btn = cbRt.Find(btnNomesGo[i]) ?? m.Find(btnNomesGo[i]);
                     if (btn != null)
                     {
                         RectTransform btnRt = btn as RectTransform;
@@ -756,7 +728,7 @@ public static class ConfigurarRunnerUIScene
                         btnRt.anchorMin = new Vector2(0.5f, 0.5f);
                         btnRt.anchorMax = new Vector2(0.5f, 0.5f);
                         btnRt.pivot = new Vector2(0.5f, 0.5f);
-                        btnRt.anchoredPosition = new Vector2(0f, 16f);
+                        btnRt.anchoredPosition = new Vector2(0f, 18f);
                         btnRt.sizeDelta = new Vector2(64f, 64f);
                         var bImg = btn.GetComponent<UnityEngine.UI.Image>();
                         if (bImg != null) bImg.preserveAspect = true;
@@ -764,7 +736,7 @@ public static class ConfigurarRunnerUIScene
 
                     ObterOuCriarTexto(m, "Label",
                         new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
-                        new Vector2(0f, -36f), new Vector2(190f, 34f), labelsGo[i], 24f, corTextoEscuro, TextAlignmentOptions.Center, fontPadrao);
+                        new Vector2(0f, -34f), new Vector2(195f, 36f), labelsGo[i], 26f, corTextoEscuro, TextAlignmentOptions.Center, fontPadrao);
                 }
             }
         }
@@ -809,7 +781,17 @@ public static class ConfigurarRunnerUIScene
         }
     }
 
-    private static RectTransform ObterOuCriarImg(Transform pai, string nome, Vector2 ancMin, Vector2 ancMax, Vector2 piv, Vector2 pos, Vector2 size, Sprite sp, bool sliced, Color cor)
+    private static void RemoverFilhoSeExistir(Transform pai, string nomeFilho)
+    {
+        if (pai == null) return;
+        Transform f = pai.Find(nomeFilho);
+        if (f != null)
+        {
+            Undo.DestroyObjectImmediate(f.gameObject);
+        }
+    }
+
+    private static RectTransform ObterOuCriarImg(Transform pai, string nome, Vector2 ancMin, Vector2 ancMax, Vector2 piv, Vector2 pos, Vector2 size, Sprite sp, bool sliced, Color cor, float ppuMult = 0.25f)
     {
         Transform t = pai.Find(nome);
         GameObject go = t != null ? t.gameObject : new GameObject(nome, typeof(RectTransform), typeof(CanvasRenderer), typeof(UnityEngine.UI.Image));
@@ -835,7 +817,7 @@ public static class ConfigurarRunnerUIScene
         Undo.RecordObject(img, "Ajustar Imagem " + nome);
         if (sp != null) img.sprite = sp;
         img.type = sliced ? UnityEngine.UI.Image.Type.Sliced : UnityEngine.UI.Image.Type.Simple;
-        img.pixelsPerUnitMultiplier = sliced ? 0.25f : 1f;
+        img.pixelsPerUnitMultiplier = sliced ? ppuMult : 1f;
         img.preserveAspect = !sliced;
         img.color = cor;
         img.raycastTarget = false;

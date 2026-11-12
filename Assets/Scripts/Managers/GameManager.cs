@@ -52,6 +52,12 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        if (hudDoJogo != null && alimentoObjetivo != null)
+        {
+            var imgIconeHud = hudDoJogo.transform.Find("MolduraColetadosHUD/IconeAlimentoHUD")?.GetComponent<Image>();
+            if (imgIconeHud != null) imgIconeHud.sprite = alimentoObjetivo.iconeVisual;
+        }
+
         AtualizarHUDMoedas();
         AtualizarTextoHUD();
 
