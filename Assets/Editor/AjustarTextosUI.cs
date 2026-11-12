@@ -12,6 +12,19 @@ public static class AjustarTextosUI
     const float TamanhoMinimoAbsoluto = 14f;
     const float FracaoMinima = 0.45f;
 
+    [MenuItem("Meraki/UI/Aplicar Layout da Loja (Cena Hub)")]
+    public static void AplicarLayoutLojaMenu()
+    {
+        var lojaMgr = Object.FindAnyObjectByType<LojaManager>(FindObjectsInactive.Include);
+        if (lojaMgr != null)
+        {
+            lojaMgr.ConfigurarVisualLojaETopo();
+            EditorUtility.SetDirty(lojaMgr);
+            EditorSceneManager.MarkAllScenesDirty();
+            Debug.Log("[AjustarTextosUI] Layout da Loja e Pop-up de Topo aplicados na cena.");
+        }
+    }
+
     [MenuItem("Meraki/UI/Ajustar textos da cena ou prefab aberto")]
     public static void AjustarMenu()
     {
