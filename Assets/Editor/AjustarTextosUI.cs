@@ -25,6 +25,12 @@ public static class AjustarTextosUI
         }
     }
 
+    [MenuItem("Meraki/UI/Aplicar Layout do Runner (Cena Runner)")]
+    public static void AplicarLayoutRunnerMenu()
+    {
+        ConfigurarRunnerUIScene.ConfigurarCenaRunnerNoEditor();
+    }
+
     [MenuItem("Meraki/UI/Ajustar textos da cena ou prefab aberto")]
     public static void AjustarMenu()
     {
